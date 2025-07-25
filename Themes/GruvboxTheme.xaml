@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Grayscale / Dark shades -->
+    <Color x:Key="Dark0HardColor">#FF1D2021</Color>
+    <Color x:Key="Dark0Color">#FF282828</Color>
+    <Color x:Key="Dark0SoftColor">#FF32302F</Color>
+    <Color x:Key="Dark1Color">#FF3C3836</Color>
+    <Color x:Key="Dark2Color">#FF504945</Color>
+    <Color x:Key="Dark3Color">#FF665C54</Color>
+    <Color x:Key="Dark4Color">#FF7C6F64</Color>
+    <Color x:Key="GrayColor">#FF928374</Color>
+    <Color x:Key="GruvboxHover">#FF3c3836</Color>
+    <Color x:Key="GruvboxPress">#FF504945</Color>
+    <Color x:Key="GruvboxAccent">#FFfabd2f</Color>
+
+    <!-- Light shades -->
+    <Color x:Key="Light0HardColor">#FFF9F5D7</Color>
+    <Color x:Key="Light0Color">#FFFBF1C7</Color>
+    <Color x:Key="Light0SoftColor">#FFF2E5BC</Color>
+    <Color x:Key="Light1Color">#FFEBDBB2</Color>
+    <Color x:Key="Light2Color">#FFD5C4A1</Color>
+    <Color x:Key="Light3Color">#FFBDAE93</Color>
+    <Color x:Key="Light4Color">#FFA89984</Color>
+
+    <!-- Bright colors -->
+    <Color x:Key="BrightRedColor">#FFFB4934</Color>
+    <Color x:Key="BrightGreenColor">#FFB8BB26</Color>
+    <Color x:Key="BrightYellowColor">#FFFABD2F</Color>
+    <Color x:Key="BrightBlueColor">#FF83A598</Color>
+    <Color x:Key="BrightPurpleColor">#FFD3869B</Color>
+    <Color x:Key="BrightAquaColor">#FF8EC07C</Color>
+    <Color x:Key="BrightOrangeColor">#FFFE8019</Color>
+
+    <!-- Neutral colors -->
+    <Color x:Key="NeutralRedColor">#FFCC241D</Color>
+    <Color x:Key="NeutralGreenColor">#FF98971A</Color>
+    <Color x:Key="NeutralYellowColor">#FFD79921</Color>
+    <Color x:Key="NeutralBlueColor">#FF458588</Color>
+    <Color x:Key="NeutralPurpleColor">#FFB16286</Color>
+    <Color x:Key="NeutralAquaColor">#FF689D6A</Color>
+    <Color x:Key="NeutralOrangeColor">#FFD65D0E</Color>
+
+    <!-- Faded colors -->
+    <Color x:Key="FadedRedColor">#FF9D0006</Color>
+    <Color x:Key="FadedGreenColor">#FF79740E</Color>
+    <Color x:Key="FadedYellowColor">#FFB57614</Color>
+    <Color x:Key="FadedBlueColor">#FF076678</Color>
+    <Color x:Key="FadedPurpleColor">#FF8F3F71</Color>
+    <Color x:Key="FadedAquaColor">#FF427B58</Color>
+    <Color x:Key="FadedOrangeColor">#FFAF3A03</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="BackgroundPrimaryBrush" Color="{StaticResource Dark0Color}" />
+    <SolidColorBrush x:Key="BackgroundPrimaryAltBrush" Color="{StaticResource Dark0Color}" />
+    <SolidColorBrush x:Key="BackgroundSecondaryBrush" Color="{StaticResource Dark0HardColor}" />
+    <SolidColorBrush x:Key="BackgroundSecondaryAltBrush" Color="{StaticResource Dark1Color}" />
+
+    <SolidColorBrush x:Key="TextNormalBrush" Color="{StaticResource Light0Color}" />
+    <SolidColorBrush x:Key="TextFaintBrush" Color="{StaticResource Light1Color}" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource Light2Color}" />
+
+    <SolidColorBrush x:Key="TextAccentBrush" Color="{StaticResource NeutralOrangeColor}" />
+    <SolidColorBrush x:Key="TextAccentHoverBrush" Color="{StaticResource BrightAquaColor}" />
+
+    <SolidColorBrush x:Key="TagColorBrush" Color="{StaticResource BrightAquaColor}" />
+    <SolidColorBrush x:Key="TagBackgroundBrush" Color="{StaticResource Dark2Color}" />
+    <SolidColorBrush x:Key="TagBackgroundHoverBrush" Color="{StaticResource Dark1Color}" />
+
+    <SolidColorBrush x:Key="TitlebarTextColorFocusedBrush" Color="{StaticResource BrightRedColor}" />
+    <SolidColorBrush x:Key="InlineTitleColorBrush" Color="{StaticResource BrightYellowColor}" />
+
+    <SolidColorBrush x:Key="BoldColorBrush" Color="{StaticResource NeutralYellowColor}" />
+    <SolidColorBrush x:Key="ItalicColorBrush" Color="{StaticResource NeutralYellowColor}" />
+
+    <SolidColorBrush x:Key="CheckboxBrush" Color="{StaticResource Light4Color}" />
+    <SolidColorBrush x:Key="CodeBackgroundBrush" Color="{StaticResource Dark1Color}" />
+    <SolidColorBrush x:Key="CodeNormalBrush" Color="{StaticResource BrightBlueColor}" />
+
+    <SolidColorBrush x:Key="GraphLineBrush" Color="{StaticResource Dark2Color}" />
+    <SolidColorBrush x:Key="GraphNodeBrush" Color="{StaticResource Light3Color}" />
+    <SolidColorBrush x:Key="GraphNodeTagBrush" Color="{StaticResource NeutralRedColor}" />
+    <SolidColorBrush x:Key="GraphNodeAttachmentBrush" Color="{StaticResource NeutralGreenColor}" />
+
+    <SolidColorBrush x:Key="ButtonHoverBrush" Color="{StaticResource GruvboxHover}" />
+    <SolidColorBrush x:Key="ButtonPressedBrush" Color="{StaticResource GruvboxPress}" />
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="{StaticResource GruvboxAccent}" />
+</ResourceDictionary>

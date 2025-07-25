@@ -1,0 +1,114 @@
+﻿<Page x:Class="PDM.ui.Pages.AddPhonePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDM.ui.Pages" 
+      xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels;assembly=PDM" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneDataViewModel}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AddPhonePage">
+
+    <Grid Margin="10,10,10,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Phone ID: " Foreground="{DynamicResource TextNormalBrush}"/>
+            <TextBlock Text="{Binding NextPhoneId}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <Grid Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Brand:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedBrand}" Margin="5"></ComboBox>
+
+                <!-- Model -->
+                <TextBlock Text="Model:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding FilteredModels}" SelectedItem="{Binding SelectedPhone.Model}"/>
+
+                <!-- IMEI -->
+                <TextBlock Text="IMEI:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.IMEI}"/>
+
+                <!-- OS -->
+                <TextBlock Text="OS:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" Margin="5" ItemsSource="{Binding FilteredOses}" SelectedItem="{Binding SelectedPhone.OS}"/>
+
+                <!-- Storage -->
+                <TextBlock Text="Storage:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Storage}"/>
+
+                <!-- Color -->
+                <TextBlock Text="Color:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Color}"/>
+
+                <!-- Condition -->
+                <TextBlock Text="Condition:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <ComboBox Grid.Row="6" Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneConditions}" SelectedItem="{Binding SelectedPhone.Condition}"></ComboBox>
+
+                <!-- Phone State -->
+                <TextBlock Text="Phone State:" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <ComboBox Grid.Row="7" Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStates}" SelectedItem="{Binding SelectedPhone.PhoneState}"/>
+                
+                <!--Phone Status-->
+                <TextBlock Text="Phone State:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <ComboBox Grid.Row="8" Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStatuses}" SelectedItem="{Binding SelectedPhone.Status}"></ComboBox>
+
+                <!-- Passcode Type -->
+                <TextBlock Text="Passcode Type:" Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <ComboBox Grid.Row="9" Grid.Column="1" Margin="5" ItemsSource="{Binding PasscodeTypes}" SelectedItem="{Binding SelectedPhone.PasscodeType}"/>
+
+                <!-- Passcode Length -->
+                <TextBlock Text="Passcode Length:" Grid.Row="10" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBox Grid.Row="10" Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.PasscodeLength}"/>
+
+                <!-- Notes -->
+                <TextBlock Text="Notes:" Grid.Row="11" Grid.Column="0" VerticalAlignment="Top" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBox Grid.Row="11" Grid.Column="1" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="5" Text="{Binding SelectedPhone.Notes}"/>
+                
+                <!-- Image -->
+                <TextBlock Text="Image:" Grid.Row="12" Grid.Column="0" VerticalAlignment="Top" Margin="5"></TextBlock>
+                <StackPanel Grid.Row="12" Grid.Column="1">
+                    <Image Margin="10">
+                        <Image.Source>
+                            <Binding Path="PhoneImage"></Binding>
+                        </Image.Source>
+                    </Image>
+                    <Button Content="Upload Image" Command="{Binding UploadImageCommand}"></Button>
+                </StackPanel>
+                
+            </Grid>
+        </ScrollViewer>
+        
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+            <Button Content="Save" Margin="0,0,10,0" Command="{Binding SaveCommand}"></Button>
+            <Button Content="Cancel" Margin="10,0,0,0"></Button>
+        </StackPanel>
+    </Grid>
+</Page>
