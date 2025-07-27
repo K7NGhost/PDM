@@ -73,7 +73,7 @@
                 <ComboBox Grid.Row="7" Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStates}" SelectedItem="{Binding SelectedPhone.PhoneState}"/>
 
                 <!--Phone Status-->
-                <TextBlock Text="Phone State:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBlock Text="Phone Status:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
                 <ComboBox Grid.Row="8" Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStatuses}" SelectedItem="{Binding SelectedPhone.Status}"></ComboBox>
 
                 <!-- Passcode Type -->

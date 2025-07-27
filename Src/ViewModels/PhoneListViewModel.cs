@@ -24,6 +24,7 @@ namespace PDM.Src.ViewModels
         public ICommand NextPageCommand { get; }
         public ICommand PreviousPageCommand { get; }
         public ICommand EditPhoneCommand { get; }
+        public ICommand OpenFilterCommand { get; }
 
         public int CurrentPage
         {
@@ -42,6 +43,14 @@ namespace PDM.Src.ViewModels
             NextPageCommand = new RelayCommand(NextPage, CanNextPage);
             PreviousPageCommand = new RelayCommand(PreviousPage, () => _currentPage > 1);
             EditPhoneCommand = new RelayCommand<Phone>(OpenEditWindow);
+            OpenFilterCommand = new RelayCommand(() =>
+            {
+                var filterWindow = new FilterWindow();
+                if (filterWindow.ShowDialog() == true)
+                {
+                    Console.WriteLine("logged");
+                }
+            });
             // With the following corrected line:
             LoadPage();
         }
