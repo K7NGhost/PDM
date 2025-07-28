@@ -8,6 +8,7 @@ namespace PDM.Src.Enums
 {
     internal enum PhoneOS
     {
+        None,  
         iOS13,
         iOS14,
         iOS15,

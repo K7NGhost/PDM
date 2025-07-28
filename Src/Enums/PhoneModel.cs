@@ -8,6 +8,7 @@ namespace PDM.Src.Enums
 {
     internal enum PhoneModel
     {
+        None,
         // Apple
         iPhone,
         iPhone3G,

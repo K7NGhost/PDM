@@ -8,6 +8,7 @@ namespace PDM.Src.Enums
 {
     internal enum PhoneCondition
     {
+        None,
         New,
         LikeNew,
         Excellent,

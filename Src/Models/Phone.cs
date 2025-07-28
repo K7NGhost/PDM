@@ -16,6 +16,8 @@ namespace PDM.Src.Models
         [BsonId]
         public int Id { get; set; }
 
+        public int GroupId { get; set;}
+
         // General Info
         public PhoneBrand Brand { get; set; }
         public PhoneModel Model { get; set; }

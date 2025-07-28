@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using LiteDB;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using PDM.Src.Enums;
 using PDM.Src.Models;
 using System;
@@ -21,6 +22,7 @@ namespace PDM.Src.ViewModels
 {
     internal class PhoneDataViewModel : INotifyPropertyChanged
     {
+        private readonly ILogger<PhoneDataViewModel> _logger;
         public bool IsEditMode { get; set; }
         public ObservableCollection<PhoneBrand> Brands { get; }
         public ObservableCollection<PhoneModel> Models { get; }
@@ -32,6 +34,7 @@ namespace PDM.Src.ViewModels
         public ObservableCollection<PhoneModel> FilteredModels { get; } = new();
         public ObservableCollection<PhoneOS> FilteredOses { get; } = new();
         private DatabaseManager _dbManager = App.ServiceProvider.GetRequiredService<DatabaseManager>();
+        public int GroupNumber => GetOrCreateGroupNumber(SelectedModel);
 
         private static readonly Dictionary<PhoneBrand, PhoneModel[]> BrandModelMap = new()
         {
@@ -93,6 +96,19 @@ namespace PDM.Src.ViewModels
             }
         }
 
+        private PhoneModel _selectedModel;
+        public PhoneModel SelectedModel
+        {
+            get => _selectedModel;
+            set
+            {
+                _selectedModel = value;
+                SelectedPhone.Model = _selectedModel;
+                OnPropertyChanged(nameof(SelectedModel));
+                OnPropertyChanged(nameof(GroupNumber));
+            }
+        }
+
         private int _nextPhoneId;
         public int NextPhoneId
         {
@@ -133,6 +149,7 @@ namespace PDM.Src.ViewModels
 
         public PhoneDataViewModel()
         {
+            _logger = App.ServiceProvider.GetRequiredService<ILogger<PhoneDataViewModel>>();
             Brands = new ObservableCollection<PhoneBrand>(Enum.GetValues<PhoneBrand>());
             Models = new ObservableCollection<PhoneModel>(Enum.GetValues<PhoneModel>());
             OSes = new ObservableCollection<PhoneOS>(Enum.GetValues<PhoneOS>());
@@ -159,8 +176,9 @@ namespace PDM.Src.ViewModels
                 else
                 {
                     SelectedPhone.Id = NextPhoneId;
+                    SelectedPhone.GroupId = GroupNumber;
                     _dbManager.SavePhone(SelectedPhone);
-                    MessageBox.Show("Phone Saved Successfully, with id: " + NextPhoneId);
+                    MessageBox.Show($"Phone Saved Successfully, with id: {NextPhoneId}, and group id: {GroupNumber}");
 
                     SelectedPhone = new Phone();
                     OnPropertyChanged(nameof(SelectedPhone));
@@ -217,6 +235,30 @@ namespace PDM.Src.ViewModels
                 OnPropertyChanged(nameof(SelectedPhone));
                 OnPropertyChanged(nameof(PhoneImage));
             }
+        }
+
+        public int GetOrCreateGroupNumber(PhoneModel phoneModel)
+        {
+            _logger.LogInformation($"In getorcreategroupnumber with phone model {phoneModel}");
+            var phoneCollection = App.ServiceProvider.GetRequiredService<DatabaseManager>().GetDatabase().GetCollection<Phone>("phones");
+            var existingModel = phoneCollection.FindOne(x => x.Model == phoneModel);
+            
+            if (existingModel != null && existingModel.GroupId != null)
+            {
+                _logger.LogInformation($"The existing model is {existingModel.Brand} with the groupid of {existingModel.GroupId}");
+                _logger.LogInformation("Existing model does not equal null returning the groupID");
+                return existingModel.GroupId;
+            }
+            _logger.LogInformation("No existing model ... Creating new groupID");
+            // If there is no existing model create new groupId
+            int newGroupNumber = 1;
+            var lastGroup = phoneCollection.Query().OrderByDescending(x => x.GroupId).FirstOrDefault();
+            if (lastGroup != null)
+            {
+                newGroupNumber = lastGroup.GroupId + 1;
+            }
+            Console.WriteLine($"The groupnumber is {newGroupNumber}");
+            return newGroupNumber;
         }
 
         

@@ -8,8 +8,11 @@ namespace PDM.Src.Enums
 {
     internal enum PhoneState
     {
+        None,
         BFU,
         AFU,
+        RestoreMode,
+        NotWorking,
         Unknown
     }
 }

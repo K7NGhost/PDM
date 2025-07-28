@@ -56,10 +56,10 @@
                     <TextBlock Text="Current Database Loaded: "></TextBlock>
                     <TextBlock Text="{Binding Path}" FontWeight="Bold"></TextBlock>
                 </StackPanel>
-                
+
                 <StackPanel Margin="10" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Content="Back" Click="NavToPrevPage_Click" Margin="0,0,10,0"></Button>
                     <Button Content="Next" Click="NavToNextPage_Click"></Button>
-                    <Button Content="Back" Click="NavToPrevPage_Click"></Button>
                 </StackPanel>
             </Grid>
             

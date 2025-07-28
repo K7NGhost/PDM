@@ -17,7 +17,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid>
+    <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -28,22 +28,17 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="0">
-                    <TextBlock Text="Search:"></TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10">
+                    <Button Content="Filter By" Command="{Binding OpenFilterCommand}" Foreground="{DynamicResource TextNormalBrush}" Width="150" BorderBrush="{DynamicResource TextNormalBrush}" Margin="0,0,20,0"></Button>
+                    <Button Content="Clear Filters" Command="{Binding ClearFilterCommand}" Width="100" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}"></Button>
                 </StackPanel>
-
-                <WrapPanel Grid.Row="1" ItemWidth="150" Margin="5">
-                    <ComboBox x:Name="BrandFilter" Text="Brand"/>
-                    <ComboBox x:Name="OSFilter" Text="OS"></ComboBox>
-                </WrapPanel>
                 
             </Grid>
         </Border>
 
-        <DataGrid Grid.Row="1" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" ItemsSource="{Binding Phones}" HorizontalContentAlignment="Center">
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" ItemsSource="{Binding Phones}" HorizontalContentAlignment="Center" IsReadOnly="True">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <!-- Put the VM on the row.Tag -->
@@ -52,11 +47,7 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Header="Edit"
-                                  Command="{Binding PlacementTarget.Tag.EditPhoneCommand,
-                                                    RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                  CommandParameter="{Binding PlacementTarget.DataContext,
-                                                             RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                <MenuItem Header="Edit" Command="{Binding PlacementTarget.Tag.EditPhoneCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>
@@ -70,6 +61,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Group Id" Binding="{Binding GroupId}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Brand" Binding="{Binding Brand}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
@@ -84,9 +76,10 @@
                 <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Border Grid.Row="2">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Page:"></TextBlock>
+        <Border Grid.Row="2" BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="0,1,1,0">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Page:" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                <TextBlock Text="{Binding CurrentPage}" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
             </StackPanel>
         </Border>
     </Grid>

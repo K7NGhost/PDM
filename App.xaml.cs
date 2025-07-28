@@ -6,6 +6,7 @@ using PDM.ui.Pages;
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using Microsoft.Extensions.Logging;
 
 namespace PDM
 {
@@ -27,6 +28,11 @@ namespace PDM
 
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(configure =>
+            {
+                configure.AddDebug();
+                configure.SetMinimumLevel(LogLevel.Information);
+            });
             // Core Services
             services.AddSingleton<DatabaseManager>();
             services.AddSingleton<DatabaseManagerViewModel>();

@@ -17,8 +17,13 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Phone Group ID: " Foreground="{DynamicResource TextNormalBrush}"/>
+            <TextBlock Text="{Binding GroupNumber}" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+
             <TextBlock Text="Phone ID: " Foreground="{DynamicResource TextNormalBrush}"/>
             <TextBlock Text="{Binding NextPhoneId}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+            
+            
         </StackPanel>
 
         <ScrollViewer Grid.Row="1">
@@ -49,7 +54,7 @@
 
                 <!-- Model -->
                 <TextBlock Text="Model:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding FilteredModels}" SelectedItem="{Binding SelectedPhone.Model}"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding FilteredModels}" SelectedItem="{Binding SelectedModel}"/>
 
                 <!-- IMEI -->
                 <TextBlock Text="IMEI:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
@@ -76,7 +81,7 @@
                 <ComboBox Grid.Row="7" Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStates}" SelectedItem="{Binding SelectedPhone.PhoneState}"/>
                 
                 <!--Phone Status-->
-                <TextBlock Text="Phone State:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBlock Text="Phone Status:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
                 <ComboBox Grid.Row="8" Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStatuses}" SelectedItem="{Binding SelectedPhone.Status}"></ComboBox>
 
                 <!-- Passcode Type -->
@@ -92,7 +97,7 @@
                 <TextBox Grid.Row="11" Grid.Column="1" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="5" Text="{Binding SelectedPhone.Notes}"/>
                 
                 <!-- Image -->
-                <TextBlock Text="Image:" Grid.Row="12" Grid.Column="0" VerticalAlignment="Top" Margin="5"></TextBlock>
+                <TextBlock Text="Image:" Grid.Row="12" Grid.Column="0" VerticalAlignment="Top" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                 <StackPanel Grid.Row="12" Grid.Column="1">
                     <Image Margin="10">
                         <Image.Source>

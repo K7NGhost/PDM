@@ -8,6 +8,7 @@ namespace PDM.Src.Enums
 {
     internal enum  PhoneStatus
     {
+        None,
         NotAnalyzed,
         Logical,
         FullFileSystem,

@@ -8,6 +8,7 @@ namespace PDM.Src.Enums
 {
     internal enum PhoneBrand
     {
+        None,
         Apple,
         Samsung,
         Google,
