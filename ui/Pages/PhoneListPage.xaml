@@ -66,6 +66,7 @@
                 <DataGridTextColumn Header="Brand" Binding="{Binding Brand}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Model" Binding="{Binding Model}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="OS" Binding="{Binding OS}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Version" Binding="{Binding Version}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="PasscodeType" Binding="{Binding PasscodeType}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="PasscodeLength" Binding="{Binding PasscodeLength}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>

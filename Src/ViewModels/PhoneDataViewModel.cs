@@ -258,14 +258,14 @@ namespace PDM.Src.ViewModels
 
         private static List<PhoneOS> GetAppleOses()
         {
-            var osList = Enum.GetValues(typeof(PhoneOS)).Cast<PhoneOS>().Where(x => x.ToString().Contains("iOS", StringComparison.OrdinalIgnoreCase)).ToList();
+            var osList = Enum.GetValues(typeof(PhoneOS)).Cast<PhoneOS>().Where(x => x == PhoneOS.None || x.ToString().Contains("iOS", StringComparison.OrdinalIgnoreCase)).ToList();
             osList.Reverse();
             return osList;
         }
 
         private static List<PhoneOS> GetAndroidOses()
         {
-            var osList = Enum.GetValues(typeof(PhoneOS)).Cast<PhoneOS>().Where(x => x.ToString().Contains("Android", StringComparison.OrdinalIgnoreCase)).ToList();
+            var osList = Enum.GetValues(typeof(PhoneOS)).Cast<PhoneOS>().Where(x => x == PhoneOS.None || x.ToString().Contains("Android", StringComparison.OrdinalIgnoreCase)).ToList();
             osList.Reverse();
             return osList;
         }

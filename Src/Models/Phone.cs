@@ -29,6 +29,7 @@ namespace PDM.Src.Models
 
         public string ManufacturerId { get; set; }
         public PhoneOS OS { get; set; }
+        public string Version { get; set; }
         public string Storage { get; set; }
         public string Color { get; set; }
         public PhoneCondition Condition { get; set; }

@@ -64,6 +64,15 @@
                     <TextBlock Text="OS:" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
                     <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding FilteredOses}" SelectedItem="{Binding SelectedPhone.OS}"/>
                 </Grid>
+                <!--Specific version-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Specific Version:" Margin="5" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Version}"></TextBox>
+                </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
@@ -71,7 +80,7 @@
                     </Grid.ColumnDefinitions>
                     <!--Manufacturer Id-->
                     <TextBlock Text="Manufacturer Id:" Foreground="{DynamicResource TextNormalBrush}" Margin="5" VerticalAlignment="Center"></TextBlock>
-                    <TextBlock Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.ManufacturerId}"></TextBlock>
+                    <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.ManufacturerId}"></TextBox>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
