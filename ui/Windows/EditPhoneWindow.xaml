@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDM.ui.Windows"
         mc:Ignorable="d"
-        Title="EditPhoneWindow" Height="450" Width="800">
+        Title="EditPhoneWindow" Height="700" Width="400">
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -73,7 +73,7 @@
                 <ComboBox Grid.Row="7" Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStates}" SelectedItem="{Binding SelectedPhone.PhoneState}"/>
 
                 <!--Phone Status-->
-                <TextBlock Text="Phone State:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBlock Text="Phone Status:" Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
                 <ComboBox Grid.Row="8" Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStatuses}" SelectedItem="{Binding SelectedPhone.Status}"></ComboBox>
 
                 <!-- Passcode Type -->
@@ -105,7 +105,7 @@
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
             <Button Content="Save" Margin="0,0,10,0" Command="{Binding SaveCommand}"></Button>
-            <Button Content="Cancel" Margin="10,0,0,0"></Button>
+            <Button Content="Cancel" Click="Cancel_Click" Margin="10,0,0,0"></Button>
         </StackPanel>
     </Grid>
 </Window>

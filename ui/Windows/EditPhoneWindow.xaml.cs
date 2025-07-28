@@ -24,5 +24,13 @@ namespace PDM.ui.Windows
         {
             InitializeComponent();
         }
+
+
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            Close();
+        }
     }
 }

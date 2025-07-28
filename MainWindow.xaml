@@ -24,7 +24,7 @@
             </Menu>
         </Border>
 
-        <Border Grid.Row="1" Background="{DynamicResource BackgroundPrimaryAltBrush}">
+        <Border Grid.Row="1" Background="{DynamicResource BackgroundPrimaryAltBrush}" BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="0,1,0,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -32,11 +32,11 @@
                 </Grid.ColumnDefinitions>
                 <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="0,0,1,0">
                     <StackPanel Orientation="Vertical">
-                        <Button Content="Dashboard" HorizontalAlignment="Stretch" Click="NavToDashboardPage_Click"></Button>
-                        <Button Content="Phone List" HorizontalAlignment="Stretch" Click="NavToPhoneListPage_Click"></Button>
-                        <Button Content="Add Phone" HorizontalAlignment="Stretch" Click="NavToAddPhonePage_Click"></Button>
-                        <Button Content="Settings" HorizontalAlignment="Stretch"></Button>
-                        <Button Content="Import/Export" HorizontalAlignment="Stretch"></Button>
+                        <Button Content="Dashboard" HorizontalAlignment="Stretch" Click="NavToDashboardPage_Click" Margin="0,0,0,10"/>
+                        <Button Content="Phone List" HorizontalAlignment="Stretch" Click="NavToPhoneListPage_Click" Margin="0,0,0,10"></Button>
+                        <Button Content="Add Phone" HorizontalAlignment="Stretch" Click="NavToAddPhonePage_Click" Margin="0,0,0,10"></Button>
+                        <Button Content="Settings" HorizontalAlignment="Stretch" Margin="0,0,0,10"></Button>
+                        <Button Content="Import/Export" HorizontalAlignment="Stretch" Margin="0,0,0,10"></Button>
                     </StackPanel>
                 </Border>
 

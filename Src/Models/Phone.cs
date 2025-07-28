@@ -26,6 +26,8 @@ namespace PDM.Src.Models
         public byte[]? ImageData { get; set; }
 
         // Specs
+
+        public string ManufacturerId { get; set; }
         public PhoneOS OS { get; set; }
         public string Storage { get; set; }
         public string Color { get; set; }

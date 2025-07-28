@@ -35,35 +35,16 @@ namespace PDM.Src.ViewModels
         public ObservableCollection<PhoneOS> FilteredOses { get; } = new();
         private DatabaseManager _dbManager = App.ServiceProvider.GetRequiredService<DatabaseManager>();
         public int GroupNumber => GetOrCreateGroupNumber(SelectedModel);
-
-        private static readonly Dictionary<PhoneBrand, PhoneModel[]> BrandModelMap = new()
+     
+        private static readonly Dictionary<PhoneBrand, List<PhoneModel>> BrandModelMap = new()
         {
-            { PhoneBrand.Apple, new[] {
-                PhoneModel.iPhone,
-                PhoneModel.iPhoneX,
-                PhoneModel.iPhone11
-            } },
-            { PhoneBrand.Samsung, new[]
-            {
-                PhoneModel.GalaxyA52,
-                PhoneModel.GalaxyS22
-            } }
+            { PhoneBrand.Apple, GetIPhoneModels() },
+            {PhoneBrand.Samsung,  GetSamsungModels() }
         };
 
-        private static readonly PhoneOS[] AppleOSes =
-        {
-            PhoneOS.iOS15,
-            PhoneOS.iOS16,
-            PhoneOS.iOS17,
-        };
+        private static readonly List<PhoneOS> AppleOSes = GetAppleOses();
 
-        private static readonly PhoneOS[] AndroidOSes =
-        {
-            PhoneOS.Android14,
-            PhoneOS.Android11,
-            PhoneOS.Android12,
-            PhoneOS.Android13,
-        };
+        private static readonly List<PhoneOS> AndroidOSes = GetAndroidOses();
 
         private Phone _selectedPhone = new();
         public Phone SelectedPhone
@@ -261,7 +242,35 @@ namespace PDM.Src.ViewModels
             return newGroupNumber;
         }
 
-        
+        private static List<PhoneModel> GetIPhoneModels()
+        {
+            var iPhoneList = Enum.GetValues(typeof(PhoneModel)).Cast<PhoneModel>().Where(m => m.ToString().Contains("iPhone", StringComparison.OrdinalIgnoreCase)).ToList();
+            iPhoneList.Reverse();
+            return iPhoneList;
+        }
+
+        private static List<PhoneModel> GetSamsungModels()
+        {
+            var samsungList = Enum.GetValues(typeof(PhoneModel)).Cast<PhoneModel>().Where(m => m.ToString().Contains("Galaxy", StringComparison.OrdinalIgnoreCase) || m.ToString().Contains("Note", StringComparison.OrdinalIgnoreCase)).ToList();
+            samsungList.Reverse();
+            return samsungList;
+        }
+
+        private static List<PhoneOS> GetAppleOses()
+        {
+            var osList = Enum.GetValues(typeof(PhoneOS)).Cast<PhoneOS>().Where(x => x.ToString().Contains("iOS", StringComparison.OrdinalIgnoreCase)).ToList();
+            osList.Reverse();
+            return osList;
+        }
+
+        private static List<PhoneOS> GetAndroidOses()
+        {
+            var osList = Enum.GetValues(typeof(PhoneOS)).Cast<PhoneOS>().Where(x => x.ToString().Contains("Android", StringComparison.OrdinalIgnoreCase)).ToList();
+            osList.Reverse();
+            return osList;
+        }
+
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>

@@ -10,11 +10,7 @@ namespace PDM.Src.Enums
     {
         None,
         New,
-        LikeNew,
-        Excellent,
         Good,
-        Fair,
-        Poor,
         Damaged,
         SeverelyDamaged,
         Repaired,

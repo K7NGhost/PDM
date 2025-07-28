@@ -13,6 +13,5 @@ namespace PDM.Src.Enums
         AFU,
         RestoreMode,
         NotWorking,
-        Unknown
     }
 }

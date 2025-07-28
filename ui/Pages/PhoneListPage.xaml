@@ -70,6 +70,7 @@
                 <DataGridTextColumn Header="PasscodeType" Binding="{Binding PasscodeType}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="PasscodeLength" Binding="{Binding PasscodeLength}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="PhoneState" Binding="{Binding PhoneState}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Man Id" Binding="{Binding ManufacturerId}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Storage" Binding="{Binding Storage}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Color" Binding="{Binding Color}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Condition" Binding="{Binding Condition}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
