@@ -39,7 +39,8 @@ namespace PDM.Src.ViewModels
         private static readonly Dictionary<PhoneBrand, List<PhoneModel>> BrandModelMap = new()
         {
             { PhoneBrand.Apple, GetIPhoneModels() },
-            {PhoneBrand.Samsung,  GetSamsungModels() }
+            {PhoneBrand.Samsung,  GetSamsungModels() },
+            {PhoneBrand.LG, GetPhoneModels("Phoenix") }
         };
 
         private static readonly List<PhoneOS> AppleOSes = GetAppleOses();
@@ -240,6 +241,13 @@ namespace PDM.Src.ViewModels
             }
             Console.WriteLine($"The groupnumber is {newGroupNumber}");
             return newGroupNumber;
+        }
+
+        private static List<PhoneModel> GetPhoneModels(string phoneModelName)
+        {
+            var phoneList = Enum.GetValues(typeof(PhoneModel)).Cast<PhoneModel>().Where(m => m.ToString().Contains(phoneModelName, StringComparison.OrdinalIgnoreCase)).ToList();
+            phoneList.Reverse();
+            return phoneList;
         }
 
         private static List<PhoneModel> GetIPhoneModels()

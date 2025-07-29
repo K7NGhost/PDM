@@ -63,5 +63,11 @@ namespace PDM
             var addPhonePage = App.ServiceProvider.GetRequiredService<AddPhonePage>();
             MainFrame.Navigate(addPhonePage);
         }
+
+        private void NavToIdPhonePage_Click(object sender, RoutedEventArgs e)
+        {
+            var idPhonePage = App.ServiceProvider.GetRequiredService<IdentifyPhonePage>();
+            MainFrame.Navigate(idPhonePage);
+        }
     }
 }

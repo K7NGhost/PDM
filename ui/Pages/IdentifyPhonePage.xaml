@@ -1,0 +1,58 @@
+﻿<Page x:Class="PDM.ui.Pages.IdentifyPhonePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDM.ui.Pages" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneLookupViewModel}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="IdentifyPhonePage">
+
+    <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <!-- Header -->
+            <TextBlock Grid.Column="0" Text="Phone Identification" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TitlebarTextColorFocusedBrush}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <Button Grid.Column="1" Content="Add Record" Width="200" Height="35" HorizontalAlignment="Right" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}" Command="{Binding OpenAddPhoneMapCommand}"></Button>
+        </Grid>
+        
+        
+        <!-- Live Search Input -->
+        <TextBox x:Name="PhoneIdInput" Grid.Row="1" Width="350" Height="40" FontSize="16" VerticalAlignment="Center" Margin="0,0,0,20" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        
+        <!-- Result Display -->
+        <Border Grid.Row="2" CornerRadius="10" Padding="20" BorderThickness="1" BorderBrush="{DynamicResource TextNormalBrush}">
+            <StackPanel DataContext="{Binding SearchResult}">
+                <TextBlock Text="Result" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10" Foreground="{DynamicResource TitlebarTextColorFocusedBrush}"/>
+
+                <!-- Phone Info -->
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Manufacturer: " FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <TextBlock Text="{Binding Brand}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Model: " FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <TextBlock Text="{Binding Model}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Release Year: " FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <TextBlock Text="{Binding ReleaseYear}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                </StackPanel>
+
+                <Image></Image>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

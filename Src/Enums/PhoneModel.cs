@@ -65,6 +65,9 @@ namespace PDM.Src.Enums
         GalaxyS22,
         GalaxyA52,
 
+        //LG
+        Phoenix4,
+
         // Google
         Pixel4,
         Pixel5,

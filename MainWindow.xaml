@@ -35,6 +35,7 @@
                         <Button Content="Dashboard" HorizontalAlignment="Stretch" Click="NavToDashboardPage_Click" Margin="0,0,0,10"/>
                         <Button Content="Phone List" HorizontalAlignment="Stretch" Click="NavToPhoneListPage_Click" Margin="0,0,0,10"></Button>
                         <Button Content="Add Phone" HorizontalAlignment="Stretch" Click="NavToAddPhonePage_Click" Margin="0,0,0,10"></Button>
+                        <Button Content="Identify Phone" HorizontalAlignment="Stretch" Click="NavToIdPhonePage_Click" Margin="0,0,0,10"></Button>
                         <Button Content="Settings" HorizontalAlignment="Stretch" Margin="0,0,0,10"></Button>
                         <Button Content="Import/Export" HorizontalAlignment="Stretch" Margin="0,0,0,10"></Button>
                     </StackPanel>
