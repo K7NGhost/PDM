@@ -20,6 +20,13 @@ namespace PDM.Src.ViewModels
             set => SetProperty(ref _brandInput, value);
         }
 
+        private string _modelBrandInput;
+        public string ModelBrandInput
+        {
+            get => _modelBrandInput;
+            set => SetProperty(ref _modelBrandInput, value);
+        }
+
         private string _modelInput;
         public string ModelInput
         {
@@ -60,7 +67,7 @@ namespace PDM.Src.ViewModels
                 var modelCol = db.GetCollection<PhoneModel>("models");
                 if (!modelCol.Exists(x => x.ModelName.Equals(ModelInput, StringComparison.OrdinalIgnoreCase)))
                 {
-                    modelCol.Insert(new PhoneModel { ModelName = ModelInput });
+                    modelCol.Insert(new PhoneModel { Brand = ModelBrandInput, ModelName = ModelInput });
                 }
             }
 

@@ -9,20 +9,44 @@
       Title="AdminPage">
 
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
-        <StackPanel Margin="20">
+        <StackPanel >
+            <Border BorderBrush="{DynamicResource TagColorBrush}" BorderThickness="0,0,0,1">
+                <StackPanel Margin="0,20">
+                    <TextBlock Text="Phone Brand:" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <TextBox Text="{Binding BrandInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+                </StackPanel>
+                
+            </Border>
+            
 
-            <TextBlock Text="Phone Brand:" Foreground="{DynamicResource TextNormalBrush}"/>
-            <TextBox Text="{Binding BrandInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+            <Border BorderBrush="{DynamicResource TagColorBrush}" BorderThickness="0,0,0,1">
+                <Grid Margin="0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Phone Brand:" Foreground="{DynamicResource TextNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+                    <TextBox Grid.Column="1" Text="{Binding ModelBrandInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" Foreground="{DynamicResource TextNormalBrush}"></TextBox>
 
-            <TextBlock Text="Phone Model:" Foreground="{DynamicResource TextNormalBrush}"/>
-            <TextBox Text="{Binding ModelInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+                    <TextBlock Grid.Column="2" Text="Phone Model:" Foreground="{DynamicResource TextNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBox Grid.Column="3" Text="{Binding ModelInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+                </Grid>
+            </Border>
 
-            <TextBlock Text="Phone OS:" Foreground="{DynamicResource TextNormalBrush}"/>
-            <TextBox Text="{Binding OSInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+
+            <Border BorderBrush="{DynamicResource TagColorBrush}" BorderThickness="0,0,0,1">
+                <StackPanel Margin="0,20">
+                    <TextBlock Text="Phone OS:" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <TextBox Text="{Binding OSInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+                </StackPanel>
+            </Border>
+            
 
             <Button Content="Save to Database"
                 Command="{Binding SaveCommand}"
-                Margin="0,10" Foreground="{DynamicResource TextNormalBrush}"/>
+                Margin="20,20" Foreground="{DynamicResource TextNormalBrush}"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDM.ui.Windows"
         mc:Ignorable="d"
-        Title="AdminLoginWindow" Height="450" Width="800">
+        Title="AdminLoginWindow" Height="150" Width="400">
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
         <StackPanel>
             <TextBlock Text="Enter Admin Password:" FontWeight="Bold" Margin="0,0,0,10"></TextBlock>

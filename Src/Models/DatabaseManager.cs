@@ -123,6 +123,17 @@ namespace PDM.Src.Models
                     osCol.Insert(new PhoneOS { OSName = line });
                 }
             }
+
+            var mapCol = db.GetCollection<PhoneMapping>("mappings");
+            if (mapCol.Count() == 0)
+            {
+                var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", "mappings.csv");
+                foreach (var line in File.ReadAllLines(csvPath).Skip(1))
+                {
+                    var parts = line.Split(',');
+                    mapCol.Insert(new PhoneMapping { Brand = parts[0], Model = parts[1], ManufacturerId = parts[2], ReleaseYear = Int32.Parse(parts[3]) });
+                }
+            }
         }
 
         /// <summary>

@@ -47,7 +47,11 @@ namespace PDM.Src.ViewModels
             {
                 _selectedPhone = value;
                 OnPropertyChanged(nameof(SelectedPhone));
-                SelectedBrand.BrandName = _selectedPhone.Brand;
+                if (!string.IsNullOrEmpty(_selectedPhone.Brand))
+                {
+                    SelectedBrand = Brands.FirstOrDefault(b =>
+                        b.BrandName.Equals(_selectedPhone.Brand, StringComparison.OrdinalIgnoreCase));
+                }
 
             }
         }
@@ -77,7 +81,10 @@ namespace PDM.Src.ViewModels
             set
             {
                 _selectedModel = value;
-                SelectedPhone.Model = _selectedModel.ModelName;
+                if (_selectedModel != null)
+                    SelectedPhone.Model = _selectedModel.ModelName;
+                else
+                    SelectedPhone.Model = null;
                 OnPropertyChanged(nameof(SelectedModel));
                 OnPropertyChanged(nameof(GroupNumber));
             }
@@ -125,28 +132,32 @@ namespace PDM.Src.ViewModels
         {
             _logger = App.ServiceProvider.GetRequiredService<ILogger<PhoneDataViewModel>>();
             var db = _dbManager.GetDatabase();
-            var brandCol = db.GetCollection<PhoneBrand>("brands");
-            Brands = new ObservableCollection<PhoneBrand>([.. brandCol.FindAll()]);
+            if (db != null)
+            {
+                var brandCol = db.GetCollection<PhoneBrand>("brands");
+                Brands = new ObservableCollection<PhoneBrand>([.. brandCol.FindAll()]);
 
-            var modelCol = db.GetCollection<PhoneModel>("models");
-            Models = new ObservableCollection<PhoneModel>(modelCol.FindAll().ToList());
+                var modelCol = db.GetCollection<PhoneModel>("models");
+                Models = new ObservableCollection<PhoneModel>(modelCol.FindAll().ToList());
+
+                BrandModelMap = Brands.ToDictionary(
+                    b => b.BrandName,
+                    b => Models.Where(m => m.Brand.Contains(b.BrandName, StringComparison.OrdinalIgnoreCase)).ToList()
+                    );
+
+                var osCol = db.GetCollection<PhoneOS>("oses");
+                OSes = new ObservableCollection<PhoneOS>(osCol.FindAll().ToList());
+                PhoneStates = new ObservableCollection<PhoneState>(Enum.GetValues<PhoneState>());
+                PasscodeTypes = new ObservableCollection<PasscodeType>(Enum.GetValues<PasscodeType>());
+                PhoneConditions = new ObservableCollection<PhoneCondition>(Enum.GetValues<PhoneCondition>());
+                PhoneStatuses = new ObservableCollection<PhoneStatus>(Enum.GetValues<PhoneStatus>());
+                _nextPhoneId = _dbManager.GetNextPhoneId();
+
+                SaveCommand = new RelayCommand(Save);
+                CancelCommand = new RelayCommand(Cancel);
+                UploadImageCommand = new RelayCommand(UploadImage);
+            }
             
-            BrandModelMap = Brands.ToDictionary(
-                b => b.BrandName,
-                b => Models.Where(m => m.Brand.Contains(b.BrandName, StringComparison.OrdinalIgnoreCase)).ToList()
-                );
-
-            var osCol = db.GetCollection<PhoneOS>("oses");
-            OSes = new ObservableCollection<PhoneOS>(osCol.FindAll().ToList());
-            PhoneStates = new ObservableCollection<PhoneState>(Enum.GetValues<PhoneState>());
-            PasscodeTypes = new ObservableCollection<PasscodeType>(Enum.GetValues<PasscodeType>());
-            PhoneConditions = new ObservableCollection<PhoneCondition>(Enum.GetValues<PhoneCondition>());
-            PhoneStatuses = new ObservableCollection<PhoneStatus>(Enum.GetValues<PhoneStatus>());
-            _nextPhoneId = _dbManager.GetNextPhoneId();
-
-            SaveCommand = new RelayCommand(Save);
-            CancelCommand = new RelayCommand(Cancel);
-            UploadImageCommand = new RelayCommand(UploadImage);
         }
 
         private void Save()
@@ -188,7 +199,7 @@ namespace PDM.Src.ViewModels
         private void UpdateModels()
         {
             FilteredModels.Clear();
-            if (SelectedBrand != null &&
+            if (SelectedBrand != null && !string.IsNullOrEmpty(SelectedBrand.BrandName) &&
                 BrandModelMap.TryGetValue(SelectedBrand.BrandName, out var models))
             {
                 foreach (var model in models.AsEnumerable().Reverse())
@@ -196,21 +207,22 @@ namespace PDM.Src.ViewModels
             }
         }
 
+
         private void UpdateOSes()
         {
             FilteredOses.Clear();
 
-            if (SelectedBrand != null)
+            if (SelectedBrand != null && !string.IsNullOrWhiteSpace(SelectedBrand.BrandName))
             {
-                // Example: Apple gets iOS, others get Android
                 var osList = SelectedBrand.BrandName.Equals("Apple", StringComparison.OrdinalIgnoreCase)
-                    ? OSes.Where(o => o.OSName.Contains("iOS", StringComparison.OrdinalIgnoreCase))
-                    : OSes.Where(o => o.OSName.Contains("Android", StringComparison.OrdinalIgnoreCase));
+                    ? OSes.Where(o => !string.IsNullOrWhiteSpace(o.OSName) &&
+                                      o.OSName.Contains("iOS", StringComparison.OrdinalIgnoreCase))
+                    : OSes.Where(o => !string.IsNullOrWhiteSpace(o.OSName) &&
+                                      o.OSName.Contains("Android", StringComparison.OrdinalIgnoreCase));
 
                 foreach (var os in osList.AsEnumerable().Reverse())
                     FilteredOses.Add(os);
             }
-            FilteredOses.Reverse();
         }
 
         private void UploadImage()
