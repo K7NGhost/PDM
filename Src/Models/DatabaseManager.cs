@@ -28,7 +28,7 @@ namespace PDM.Src.Models
             _db?.Dispose();
             _db = new LiteDatabase(path);
             DatabasePath = path;
-
+            SeedDatabase(_db);
             // Ensure initial structure
             Phones?.EnsureIndex(x => x.Id, unique:true);
         }
@@ -89,6 +89,40 @@ namespace PDM.Src.Models
                 return -1;
             }
 
+        }
+
+        private void SeedDatabase(LiteDatabase db)
+        {
+            var brandCol = db.GetCollection<PhoneBrand>("brands");
+            if (brandCol.Count() == 0)
+            {
+                var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", "brands.csv");
+                foreach (var line in File.ReadAllLines(csvPath).Skip(1))
+                {
+                    brandCol.Insert(new PhoneBrand { BrandName = line });
+                }
+            }
+
+            var modelCol = db.GetCollection<PhoneModel>("models");
+            if (modelCol.Count() == 0)
+            {
+                var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", "models.csv");
+                foreach (var line in File.ReadAllLines(csvPath).Skip(1))
+                {
+                    var parts = line.Split(',');
+                    modelCol.Insert(new PhoneModel { Brand = parts[0], ModelName = parts[1] });
+                }
+            }
+
+            var osCol = db.GetCollection<PhoneOS>("oses");
+            if (osCol.Count() == 0)
+            {
+                var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", "oses.csv");
+                foreach (var line in File.ReadAllLines(csvPath).Skip(1))
+                {
+                    osCol.Insert(new PhoneOS { OSName = line });
+                }
+            }
         }
 
         /// <summary>

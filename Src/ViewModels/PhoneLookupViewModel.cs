@@ -18,8 +18,10 @@ namespace PDM.Src.ViewModels
     internal class PhoneLookupViewModel : ObservableObject
     {
         private readonly ILogger<PhoneLookupViewModel> _logger;
+
         public ObservableCollection<PhoneBrand> Brands { get; }
         public ObservableCollection<PhoneModel> Models { get; }
+
         private PhoneMapping _selectedItem;
         public PhoneMapping SelectedItem
         {
@@ -34,9 +36,7 @@ namespace PDM.Src.ViewModels
             set
             {
                 if (SetProperty(ref _searchText, value))
-                {
                     PerformSearch();
-                }
             }
         }
 
@@ -52,8 +52,11 @@ namespace PDM.Src.ViewModels
         public PhoneLookupViewModel()
         {
             _logger = App.ServiceProvider.GetRequiredService<ILogger<PhoneLookupViewModel>>();
-            Brands = new ObservableCollection<PhoneBrand>(Enum.GetValues<PhoneBrand>());
-            Models = new ObservableCollection<PhoneModel>(Enum.GetValues<PhoneModel>());
+
+            // 🔹 Load from DB instead of enums
+            var db = App.ServiceProvider.GetRequiredService<DatabaseManager>().GetDatabase();
+            Brands = new ObservableCollection<PhoneBrand>(db.GetCollection<PhoneBrand>("brands").FindAll());
+            Models = new ObservableCollection<PhoneModel>(db.GetCollection<PhoneModel>("models").FindAll());
 
             OpenAddPhoneMapCommand = new RelayCommand(OpenAddPhoneMapWindow);
         }
@@ -61,33 +64,38 @@ namespace PDM.Src.ViewModels
         private void OpenAddPhoneMapWindow()
         {
             _logger.LogInformation("Attempting to open phone mapping window");
-            SelectedItem = new PhoneMapping();
-            var window = new AddPhoneMappingWindow
+
+            // Use a fresh mapping for the window
+            var newVm = new PhoneLookupViewModel
             {
-                DataContext = this
+                SelectedItem = new PhoneMapping()
             };
 
-            if (window.ShowDialog() == true)
+            var window = new AddPhoneMappingWindow
             {
-                if (SelectedItem == null) return;
+                DataContext = newVm
+            };
 
+            if (window.ShowDialog() == true && newVm.SelectedItem != null)
+            {
                 var newMapping = new PhoneMapping
                 {
-                    ManufacturerId = SelectedItem.ManufacturerId,
-                    Brand = SelectedItem.Brand,
-                    Model = SelectedItem.Model,
-                    ReleaseYear = SelectedItem.ReleaseYear
+                    ManufacturerId = newVm.SelectedItem.ManufacturerId,
+                    Brand = newVm.SelectedItem.Brand,
+                    Model = newVm.SelectedItem.Model,
+                    ReleaseYear = newVm.SelectedItem.ReleaseYear
                 };
 
                 var db = App.ServiceProvider.GetRequiredService<DatabaseManager>().GetDatabase();
                 var col = db.GetCollection<PhoneMapping>("mappings");
                 col.Insert(newMapping);
-                MessageBox.Show("Successfully Added new record to database");
-                _logger.LogInformation("Successfully Added new record to database");
+
+                MessageBox.Show("Successfully added new record to database");
+                _logger.LogInformation("Successfully added new record to database");
             }
             else
             {
-                _logger.LogInformation("show dialog for (addphonemap) did not return true");
+                _logger.LogInformation("AddPhoneMappingWindow was cancelled or returned null item");
             }
         }
 
@@ -95,7 +103,7 @@ namespace PDM.Src.ViewModels
         {
             if (string.IsNullOrWhiteSpace(SearchText))
             {
-                SearchText = null;
+                SearchResult = null;
                 return;
             }
 
@@ -103,9 +111,10 @@ namespace PDM.Src.ViewModels
             if (db != null)
             {
                 var col = db.GetCollection<PhoneMapping>("mappings");
-                SearchResult = col.FindOne(x => x.ManufacturerId.Equals(SearchText, StringComparison.OrdinalIgnoreCase));
+                SearchResult = col.FindOne(x =>
+                    !string.IsNullOrEmpty(x.ManufacturerId) &&
+                    x.ManufacturerId.Equals(SearchText, StringComparison.OrdinalIgnoreCase));
             }
-            
         }
     }
 }

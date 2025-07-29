@@ -23,14 +23,14 @@ namespace PDM.Src.ViewModels
         private int _currentPage = 1;
         private const int PageSize = 200;
 
-        // Filters properties
-        public PhoneBrand SelectedBrandFilter { get; set; } = PhoneBrand.None;
-        public PhoneModel SelectedModelFilter { get; set; } = PhoneModel.None;
-        public PhoneOS SelectedOSFilter { get; set; } = PhoneOS.None;
-        public PhoneCondition SelectedConditionFilter { get; set; } = PhoneCondition.None;
-        public PhoneState SelectedPhoneStateFilter { get; set; } = PhoneState.None;
-        public PhoneStatus SelectedPhoneStatusFilter { get; set; } = PhoneStatus.None;
-        public PasscodeType SelectedPasscodeTypeFilter { get; set; } = PasscodeType.None;
+        // Filters (nullable means "no filter")
+        public PhoneBrand? SelectedBrandFilter { get; set; }
+        public PhoneModel? SelectedModelFilter { get; set; }
+        public PhoneOS? SelectedOSFilter { get; set; }
+        public PhoneCondition? SelectedConditionFilter { get; set; }
+        public PhoneState? SelectedPhoneStateFilter { get; set; }
+        public PhoneStatus? SelectedPhoneStatusFilter { get; set; }
+        public PasscodeType? SelectedPasscodeTypeFilter { get; set; }
 
         public ObservableCollection<Phone> Phones { get; } = new();
         public ICommand NextPageCommand { get; }
@@ -46,7 +46,6 @@ namespace PDM.Src.ViewModels
             {
                 _currentPage = value;
                 OnPropertyChanged(nameof(CurrentPage));
-                
             }
         }
 
@@ -54,13 +53,13 @@ namespace PDM.Src.ViewModels
         {
             _logger = App.ServiceProvider.GetRequiredService<ILogger<PhoneListViewModel>>();
             _dbManager = App.ServiceProvider.GetRequiredService<DatabaseManager>();
+
             NextPageCommand = new RelayCommand(NextPage, CanNextPage);
             PreviousPageCommand = new RelayCommand(PreviousPage, () => _currentPage > 1);
             EditPhoneCommand = new RelayCommand<Phone>(OpenEditWindow);
             OpenFilterCommand = new RelayCommand(OpenFilterWindow);
             ClearFilterCommand = new RelayCommand(ClearFilters);
 
-            // With the following corrected line:
             LoadPage();
         }
 
@@ -68,11 +67,12 @@ namespace PDM.Src.ViewModels
         {
             var vm = new PhoneDataViewModel();
             var filterWindow = new FilterWindow { DataContext = vm };
+
             if (filterWindow.ShowDialog() == true)
             {
-                SelectedBrandFilter = vm.SelectedPhone.Brand;
-                SelectedModelFilter = vm.SelectedPhone.Model;
-                SelectedOSFilter = vm.SelectedPhone.OS;
+                SelectedBrandFilter.BrandName = vm.SelectedPhone.Brand;
+                SelectedModelFilter.Brand = vm.SelectedPhone.Model;
+                SelectedOSFilter.OSName = vm.SelectedPhone.OS;
                 SelectedConditionFilter = vm.SelectedPhone.Condition;
                 SelectedPhoneStateFilter = vm.SelectedPhone.PhoneState;
                 SelectedPhoneStatusFilter = vm.SelectedPhone.Status;
@@ -116,17 +116,21 @@ namespace PDM.Src.ViewModels
         {
             if (!_dbManager.IsOpen)
             {
-                MessageBox.Show("dbmanager is not open");
+                MessageBox.Show("Database not open");
                 return;
             }
 
             Phones.Clear();
             var col = _dbManager.GetDatabase().GetCollection<Phone>("phones");
-            var pageItems = col.Query().OrderBy(x => x.Id).Skip((_currentPage - 1) * PageSize).Limit(PageSize).ToList();
+            var pageItems = col.Query()
+                               .OrderBy(x => x.Id)
+                               .Skip((_currentPage - 1) * PageSize)
+                               .Limit(PageSize)
+                               .ToList();
+
             foreach (var phone in pageItems)
-            {
                 Phones.Add(phone);
-            }
+
             OnPropertyChanged(nameof(Phones));
         }
 
@@ -170,22 +174,21 @@ namespace PDM.Src.ViewModels
 
             Phones.Clear();
             var col = _dbManager.GetDatabase().GetCollection<Phone>("phones");
-
             var query = col.Query();
 
-            if (SelectedBrandFilter != PhoneBrand.None)
-                query = query.Where(p => p.Brand == SelectedBrandFilter);
-            if (SelectedModelFilter != PhoneModel.None)
-                query = query.Where(p => p.Model == SelectedModelFilter);
-            if (SelectedOSFilter != PhoneOS.None)
-                query = query.Where(p => p.OS == SelectedOSFilter);
-            if (SelectedConditionFilter != PhoneCondition.None)
+            if (SelectedBrandFilter != null)
+                query = query.Where(p => p.Brand == SelectedBrandFilter.BrandName);
+            if (SelectedModelFilter != null)
+                query = query.Where(p => p.Model == SelectedModelFilter.Brand);
+            if (SelectedOSFilter != null)
+                query = query.Where(p => p.OS == SelectedOSFilter.OSName);
+            if (SelectedConditionFilter != null)
                 query = query.Where(p => p.Condition == SelectedConditionFilter);
-            if (SelectedPhoneStateFilter != PhoneState.None)
+            if (SelectedPhoneStateFilter != null)
                 query = query.Where(p => p.PhoneState == SelectedPhoneStateFilter);
-            if (SelectedPhoneStatusFilter != PhoneStatus.None)
+            if (SelectedPhoneStatusFilter != null)
                 query = query.Where(p => p.Status == SelectedPhoneStatusFilter);
-            if (SelectedPasscodeTypeFilter != PasscodeType.None)
+            if (SelectedPasscodeTypeFilter != null)
                 query = query.Where(p => p.PasscodeType == SelectedPasscodeTypeFilter);
 
             var filtered = query.OrderBy(p => p.Id).Limit(PageSize).ToList();
@@ -198,18 +201,19 @@ namespace PDM.Src.ViewModels
 
         public void ClearFilters()
         {
-            SelectedBrandFilter = PhoneBrand.None;
-            SelectedModelFilter = PhoneModel.None;
-            SelectedOSFilter = PhoneOS.None;
-            SelectedConditionFilter = PhoneCondition.None;
-            SelectedPhoneStateFilter = PhoneState.None;
-            SelectedPhoneStatusFilter = PhoneStatus.None;
-            SelectedPasscodeTypeFilter = PasscodeType.None;
+            SelectedBrandFilter = null;
+            SelectedModelFilter = null;
+            SelectedOSFilter = null;
+            SelectedConditionFilter = null;
+            SelectedPhoneStateFilter = null;
+            SelectedPhoneStatusFilter = null;
+            SelectedPasscodeTypeFilter = null;
 
             ReloadPhones();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

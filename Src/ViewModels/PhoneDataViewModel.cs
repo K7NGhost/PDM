@@ -17,6 +17,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Linq;
 
 namespace PDM.Src.ViewModels
 {
@@ -36,16 +37,7 @@ namespace PDM.Src.ViewModels
         private DatabaseManager _dbManager = App.ServiceProvider.GetRequiredService<DatabaseManager>();
         public int GroupNumber => GetOrCreateGroupNumber(SelectedModel);
      
-        private static readonly Dictionary<PhoneBrand, List<PhoneModel>> BrandModelMap = new()
-        {
-            { PhoneBrand.Apple, GetIPhoneModels() },
-            {PhoneBrand.Samsung,  GetSamsungModels() },
-            {PhoneBrand.LG, GetPhoneModels("Phoenix") }
-        };
-
-        private static readonly List<PhoneOS> AppleOSes = GetAppleOses();
-
-        private static readonly List<PhoneOS> AndroidOSes = GetAndroidOses();
+        private Dictionary<string, List<PhoneModel>> BrandModelMap { get; }
 
         private Phone _selectedPhone = new();
         public Phone SelectedPhone
@@ -55,7 +47,7 @@ namespace PDM.Src.ViewModels
             {
                 _selectedPhone = value;
                 OnPropertyChanged(nameof(SelectedPhone));
-                SelectedBrand = _selectedPhone.Brand;
+                SelectedBrand.BrandName = _selectedPhone.Brand;
 
             }
         }
@@ -70,7 +62,7 @@ namespace PDM.Src.ViewModels
                 if (_selectedBrand != value)
                 {
                     _selectedBrand = value;
-                    SelectedPhone.Brand = (PhoneBrand)_selectedBrand;
+                    SelectedPhone.Brand = _selectedBrand.BrandName;
                     OnPropertyChanged(nameof(SelectedBrand));
                     UpdateModels();
                     UpdateOSes();
@@ -85,7 +77,7 @@ namespace PDM.Src.ViewModels
             set
             {
                 _selectedModel = value;
-                SelectedPhone.Model = _selectedModel;
+                SelectedPhone.Model = _selectedModel.ModelName;
                 OnPropertyChanged(nameof(SelectedModel));
                 OnPropertyChanged(nameof(GroupNumber));
             }
@@ -132,9 +124,20 @@ namespace PDM.Src.ViewModels
         public PhoneDataViewModel()
         {
             _logger = App.ServiceProvider.GetRequiredService<ILogger<PhoneDataViewModel>>();
-            Brands = new ObservableCollection<PhoneBrand>(Enum.GetValues<PhoneBrand>());
-            Models = new ObservableCollection<PhoneModel>(Enum.GetValues<PhoneModel>());
-            OSes = new ObservableCollection<PhoneOS>(Enum.GetValues<PhoneOS>());
+            var db = _dbManager.GetDatabase();
+            var brandCol = db.GetCollection<PhoneBrand>("brands");
+            Brands = new ObservableCollection<PhoneBrand>([.. brandCol.FindAll()]);
+
+            var modelCol = db.GetCollection<PhoneModel>("models");
+            Models = new ObservableCollection<PhoneModel>(modelCol.FindAll().ToList());
+            
+            BrandModelMap = Brands.ToDictionary(
+                b => b.BrandName,
+                b => Models.Where(m => m.Brand.Contains(b.BrandName, StringComparison.OrdinalIgnoreCase)).ToList()
+                );
+
+            var osCol = db.GetCollection<PhoneOS>("oses");
+            OSes = new ObservableCollection<PhoneOS>(osCol.FindAll().ToList());
             PhoneStates = new ObservableCollection<PhoneState>(Enum.GetValues<PhoneState>());
             PasscodeTypes = new ObservableCollection<PasscodeType>(Enum.GetValues<PasscodeType>());
             PhoneConditions = new ObservableCollection<PhoneCondition>(Enum.GetValues<PhoneCondition>());
@@ -185,23 +188,29 @@ namespace PDM.Src.ViewModels
         private void UpdateModels()
         {
             FilteredModels.Clear();
-            if (BrandModelMap.TryGetValue((PhoneBrand)SelectedBrand, out var models))
+            if (SelectedBrand != null &&
+                BrandModelMap.TryGetValue(SelectedBrand.BrandName, out var models))
             {
-                foreach (var model in models)
-                {
+                foreach (var model in models.AsEnumerable().Reverse())
                     FilteredModels.Add(model);
-                }
             }
         }
 
         private void UpdateOSes()
         {
             FilteredOses.Clear();
-            var osList = _selectedBrand == PhoneBrand.Apple ? AppleOSes : AndroidOSes;
-            foreach (var os in osList)
+
+            if (SelectedBrand != null)
             {
-                FilteredOses.Add(os);
+                // Example: Apple gets iOS, others get Android
+                var osList = SelectedBrand.BrandName.Equals("Apple", StringComparison.OrdinalIgnoreCase)
+                    ? OSes.Where(o => o.OSName.Contains("iOS", StringComparison.OrdinalIgnoreCase))
+                    : OSes.Where(o => o.OSName.Contains("Android", StringComparison.OrdinalIgnoreCase));
+
+                foreach (var os in osList.AsEnumerable().Reverse())
+                    FilteredOses.Add(os);
             }
+            FilteredOses.Reverse();
         }
 
         private void UploadImage()
@@ -221,9 +230,13 @@ namespace PDM.Src.ViewModels
 
         public int GetOrCreateGroupNumber(PhoneModel phoneModel)
         {
+            if (phoneModel == null || string.IsNullOrWhiteSpace(phoneModel.ModelName))
+            {
+                return 0;
+            }
             _logger.LogInformation($"In getorcreategroupnumber with phone model {phoneModel}");
             var phoneCollection = App.ServiceProvider.GetRequiredService<DatabaseManager>().GetDatabase().GetCollection<Phone>("phones");
-            var existingModel = phoneCollection.FindOne(x => x.Model == phoneModel);
+            var existingModel = phoneCollection.FindOne(x => x.Model == phoneModel.ModelName);
             
             if (existingModel != null && existingModel.GroupId != null)
             {
@@ -242,43 +255,6 @@ namespace PDM.Src.ViewModels
             Console.WriteLine($"The groupnumber is {newGroupNumber}");
             return newGroupNumber;
         }
-
-        private static List<PhoneModel> GetPhoneModels(string phoneModelName)
-        {
-            var phoneList = Enum.GetValues(typeof(PhoneModel)).Cast<PhoneModel>().Where(m => m.ToString().Contains(phoneModelName, StringComparison.OrdinalIgnoreCase)).ToList();
-            phoneList.Reverse();
-            return phoneList;
-        }
-
-        private static List<PhoneModel> GetIPhoneModels()
-        {
-            var iPhoneList = Enum.GetValues(typeof(PhoneModel)).Cast<PhoneModel>().Where(m => m.ToString().Contains("iPhone", StringComparison.OrdinalIgnoreCase)).ToList();
-            iPhoneList.Reverse();
-            return iPhoneList;
-        }
-
-        private static List<PhoneModel> GetSamsungModels()
-        {
-            var samsungList = Enum.GetValues(typeof(PhoneModel)).Cast<PhoneModel>().Where(m => m.ToString().Contains("Galaxy", StringComparison.OrdinalIgnoreCase) || m.ToString().Contains("Note", StringComparison.OrdinalIgnoreCase)).ToList();
-            samsungList.Reverse();
-            return samsungList;
-        }
-
-        private static List<PhoneOS> GetAppleOses()
-        {
-            var osList = Enum.GetValues(typeof(PhoneOS)).Cast<PhoneOS>().Where(x => x == PhoneOS.None || x.ToString().Contains("iOS", StringComparison.OrdinalIgnoreCase)).ToList();
-            osList.Reverse();
-            return osList;
-        }
-
-        private static List<PhoneOS> GetAndroidOses()
-        {
-            var osList = Enum.GetValues(typeof(PhoneOS)).Cast<PhoneOS>().Where(x => x == PhoneOS.None || x.ToString().Contains("Android", StringComparison.OrdinalIgnoreCase)).ToList();
-            osList.Reverse();
-            return osList;
-        }
-
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name) =>

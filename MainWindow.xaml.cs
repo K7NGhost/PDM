@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using PDM.Src.Models;
 using PDM.Src.ViewModels;
 using PDM.ui;
 using PDM.ui.Pages;
+using PDM.ui.Windows;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +27,7 @@ namespace PDM
         {
             InitializeComponent();
             var dbManagerVM = new DatabaseManagerViewModel();
-            this.DataContext = dbManagerVM;
+            DataContext = dbManagerVM;
             var dashboardPage = App.ServiceProvider.GetRequiredService<DashboardPage>();
             MainFrame.Navigate(dashboardPage);
         }
@@ -68,6 +70,16 @@ namespace PDM
         {
             var idPhonePage = App.ServiceProvider.GetRequiredService<IdentifyPhonePage>();
             MainFrame.Navigate(idPhonePage);
+        }
+
+        private void NavToAdminPage_Click(Object sender, RoutedEventArgs e)
+        {
+            var login = new AdminLoginWindow();
+            if (login.ShowDialog() == true && login.IsAuthenticated)
+            {
+                var adminPage = new AdminPage();
+                MainFrame.Navigate(adminPage);
+            }
         }
     }
 }

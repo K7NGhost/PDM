@@ -76,5 +76,12 @@ namespace PDM.Src.ViewModels
         }
 
         protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private RelayCommand openAdminPanelCommand;
+        public ICommand OpenAdminPanelCommand => openAdminPanelCommand ??= new RelayCommand(OpenAdminPanel);
+
+        private void OpenAdminPanel()
+        {
+        }
     }
 }

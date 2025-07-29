@@ -38,6 +38,7 @@
                         <Button Content="Identify Phone" HorizontalAlignment="Stretch" Click="NavToIdPhonePage_Click" Margin="0,0,0,10"></Button>
                         <Button Content="Settings" HorizontalAlignment="Stretch" Margin="0,0,0,10"></Button>
                         <Button Content="Import/Export" HorizontalAlignment="Stretch" Margin="0,0,0,10"></Button>
+                        <Button Content="Admin Only" HorizontalAlignment="Stretch" Margin="0,0,0,10" Click="NavToAdminPage_Click"></Button>
                     </StackPanel>
                 </Border>
 

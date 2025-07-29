@@ -17,4 +17,16 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Templates\brands.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\models.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\oses.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

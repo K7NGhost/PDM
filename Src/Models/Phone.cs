@@ -19,8 +19,8 @@ namespace PDM.Src.Models
         public int GroupId { get; set;}
 
         // General Info
-        public PhoneBrand Brand { get; set; }
-        public PhoneModel Model { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
         public string IMEI { get; set; }
         public PhoneStatus Status { get; set; }
         public byte[]? ImageData { get; set; }
@@ -28,7 +28,7 @@ namespace PDM.Src.Models
         // Specs
 
         public string ManufacturerId { get; set; }
-        public PhoneOS OS { get; set; }
+        public string OS { get; set; }
         public string Version { get; set; }
         public string Storage { get; set; }
         public string Color { get; set; }
