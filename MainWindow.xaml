@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDM" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:DatabaseManagerViewModel}"
         mc:Ignorable="d"
-        Title="Phone Database Manager" Height="650" Width="1200">
+        Title="Phone Database Manager" Height="650" Width="1200" UseLayoutRounding="True">
     <Window.Resources>
         
     </Window.Resources>
@@ -25,12 +25,12 @@
         </Border>
 
         <Border Grid.Row="1" Background="{DynamicResource BackgroundPrimaryAltBrush}" BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="0,1,0,0">
-            <Grid>
+            <Grid UseLayoutRounding="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="0,0,1,0">
+                <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="0,0,1,0" Background="{DynamicResource BackgroundSecondaryBrush}">
                     <StackPanel Orientation="Vertical">
                         <Button Content="Dashboard" HorizontalAlignment="Stretch" Click="NavToDashboardPage_Click" Margin="0,0,0,10"/>
                         <Button Content="Phone List" HorizontalAlignment="Stretch" Click="NavToPhoneListPage_Click" Margin="0,0,0,10"></Button>

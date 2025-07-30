@@ -55,10 +55,14 @@ namespace PDM.Src.ViewModels
 
             // 🔹 Load from DB instead of enums
             var db = App.ServiceProvider.GetRequiredService<DatabaseManager>().GetDatabase();
-            Brands = new ObservableCollection<PhoneBrand>(db.GetCollection<PhoneBrand>("brands").FindAll());
-            Models = new ObservableCollection<PhoneModel>(db.GetCollection<PhoneModel>("models").FindAll());
+            if (db != null)
+            {
+                Brands = new ObservableCollection<PhoneBrand>(db.GetCollection<PhoneBrand>("brands").FindAll());
+                Models = new ObservableCollection<PhoneModel>(db.GetCollection<PhoneModel>("models").FindAll());
 
-            OpenAddPhoneMapCommand = new RelayCommand(OpenAddPhoneMapWindow);
+                OpenAddPhoneMapCommand = new RelayCommand(OpenAddPhoneMapWindow);
+            }
+            
         }
 
         private void OpenAddPhoneMapWindow()

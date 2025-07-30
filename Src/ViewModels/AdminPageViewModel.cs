@@ -4,15 +4,19 @@ using Microsoft.Extensions.DependencyInjection;
 using PDM.Src.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 
 namespace PDM.Src.ViewModels
 {
     internal class AdminPageViewModel : ObservableObject
     {
+        public ObservableCollection<string> Brands { get; }
+
         private string _brandInput;
         public string BrandInput
         {
@@ -45,11 +49,14 @@ namespace PDM.Src.ViewModels
 
         public AdminPageViewModel()
         {
+            var brandCol = App.ServiceProvider.GetRequiredService<DatabaseManager>().GetDatabase().GetCollection<PhoneBrand>("brands");
+            Brands = new ObservableCollection<string>(brandCol.FindAll().Select(b => b.BrandName));
             SaveCommand = new RelayCommand(Save);
         }
         private void Save()
         {
             var db = App.ServiceProvider.GetRequiredService<DatabaseManager>().GetDatabase();
+            var addPhoneVm = App.ServiceProvider.GetRequiredService<PhoneDataViewModel>();
 
             // Save brand if not duplicate
             if (!string.IsNullOrWhiteSpace(BrandInput))
@@ -57,7 +64,10 @@ namespace PDM.Src.ViewModels
                 var brandCol = db.GetCollection<PhoneBrand>("brands");
                 if (!brandCol.Exists(x => x.BrandName.Equals(BrandInput, StringComparison.OrdinalIgnoreCase)))
                 {
-                    brandCol.Insert(new PhoneBrand { BrandName = BrandInput });
+                    PhoneBrand newPhoneBrand = new PhoneBrand { BrandName = BrandInput };
+                    brandCol.Insert(newPhoneBrand);
+                    addPhoneVm.Brands.Add(newPhoneBrand.BrandName);
+                    Brands.Add(newPhoneBrand.BrandName);
                 }
             }
 
@@ -67,7 +77,9 @@ namespace PDM.Src.ViewModels
                 var modelCol = db.GetCollection<PhoneModel>("models");
                 if (!modelCol.Exists(x => x.ModelName.Equals(ModelInput, StringComparison.OrdinalIgnoreCase)))
                 {
-                    modelCol.Insert(new PhoneModel { Brand = ModelBrandInput, ModelName = ModelInput });
+                    PhoneModel newPhoneModel = new PhoneModel { Brand = ModelBrandInput, ModelName = ModelInput };
+                    modelCol.Insert(newPhoneModel);
+                    addPhoneVm.Models.Add(newPhoneModel);
                 }
             }
 
@@ -77,10 +89,12 @@ namespace PDM.Src.ViewModels
                 var osCol = db.GetCollection<PhoneOS>("oses");
                 if (!osCol.Exists(x => x.OSName.Equals(OSInput, StringComparison.OrdinalIgnoreCase)))
                 {
-                    osCol.Insert(new PhoneOS { OSName = OSInput });
+                    PhoneOS newPhoneOS = new PhoneOS { OSName = OSInput };
+                    osCol.Insert(newPhoneOS);
+                    addPhoneVm.OSes.Add(newPhoneOS.OSName);
                 }
             }
-
+            addPhoneVm.RefreshData();
             MessageBox.Show("Entries saved (no duplicates added).");
         }
     }

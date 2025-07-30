@@ -24,9 +24,9 @@ namespace PDM.Src.ViewModels
         private const int PageSize = 200;
 
         // Filters (nullable means "no filter")
-        public PhoneBrand? SelectedBrandFilter { get; set; }
-        public PhoneModel? SelectedModelFilter { get; set; }
-        public PhoneOS? SelectedOSFilter { get; set; }
+        public string? SelectedBrandFilter { get; set; }
+        public string? SelectedModelFilter { get; set; }
+        public string? SelectedOSFilter { get; set; }
         public PhoneCondition? SelectedConditionFilter { get; set; }
         public PhoneState? SelectedPhoneStateFilter { get; set; }
         public PhoneStatus? SelectedPhoneStatusFilter { get; set; }
@@ -70,9 +70,9 @@ namespace PDM.Src.ViewModels
 
             if (filterWindow.ShowDialog() == true)
             {
-                SelectedBrandFilter.BrandName = vm.SelectedPhone.Brand;
-                SelectedModelFilter.Brand = vm.SelectedPhone.Model;
-                SelectedOSFilter.OSName = vm.SelectedPhone.OS;
+                SelectedBrandFilter = vm.SelectedPhone.Brand;
+                SelectedModelFilter = vm.SelectedPhone.Model;
+                SelectedOSFilter = vm.SelectedPhone.OS;
                 SelectedConditionFilter = vm.SelectedPhone.Condition;
                 SelectedPhoneStateFilter = vm.SelectedPhone.PhoneState;
                 SelectedPhoneStatusFilter = vm.SelectedPhone.Status;
@@ -85,6 +85,22 @@ namespace PDM.Src.ViewModels
 
         private void OpenEditWindow(Phone phone)
         {
+            _logger.LogInformation("Opening Edit Window for Phone Id={Id}, GroupId={GroupId}, Brand={Brand}, Model={Model}, OS={OS}, IMEI={IMEI}, Storage={Storage}, Color={Color}, Condition={Condition}, State={State}, Status={Status}, PasscodeType={PasscodeType}, PasscodeLength={PasscodeLength}, Notes={NotesLength} chars, ImageData={ImageDataLength} bytes",
+        phone.Id,
+        phone.GroupId,
+        phone.Brand,
+        phone.Model,
+        phone.OS,
+        phone.IMEI,
+        phone.Storage,
+        phone.Color,
+        phone.Condition,
+        phone.PhoneState,
+        phone.Status,
+        phone.PasscodeType,
+        phone.PasscodeLength,
+        string.IsNullOrEmpty(phone.Notes) ? 0 : phone.Notes.Length,
+        phone.ImageData == null ? 0 : phone.ImageData.Length);
             var vm = new PhoneDataViewModel
             {
                 IsEditMode = true,
@@ -107,6 +123,12 @@ namespace PDM.Src.ViewModels
                     Status = phone.Status
                 }
             };
+
+            _logger.LogInformation("SelectedPhone.Brand = {Brand}, SelectedPhone.Model = {Model}, SelectedPhone.OS = {OS}",
+    vm.SelectedPhone.Brand,
+    vm.SelectedPhone.Model,
+    vm.SelectedPhone.OS);
+
 
             var window = new EditPhoneWindow { DataContext = vm };
             window.Show();
@@ -166,6 +188,16 @@ namespace PDM.Src.ViewModels
 
         public void ApplyFilters()
         {
+            _logger.LogInformation(
+    "Filters applied: Brand={Brand}, Model={Model}, OS={OS}, Condition={Condition}, State={State}, Status={Status}, Passcode={Passcode}",
+    SelectedBrandFilter ?? "Any",
+    SelectedModelFilter ?? "Any",
+    SelectedOSFilter ?? "Any",
+    SelectedConditionFilter?.ToString() ?? "Any",
+    SelectedPhoneStateFilter?.ToString() ?? "Any",
+    SelectedPhoneStatusFilter?.ToString() ?? "Any",
+    SelectedPasscodeTypeFilter?.ToString() ?? "Any"
+);
             if (!_dbManager.IsOpen)
             {
                 MessageBox.Show("Database not open");
@@ -176,19 +208,19 @@ namespace PDM.Src.ViewModels
             var col = _dbManager.GetDatabase().GetCollection<Phone>("phones");
             var query = col.Query();
 
-            if (SelectedBrandFilter != null)
-                query = query.Where(p => p.Brand == SelectedBrandFilter.BrandName);
-            if (SelectedModelFilter != null)
-                query = query.Where(p => p.Model == SelectedModelFilter.Brand);
-            if (SelectedOSFilter != null)
-                query = query.Where(p => p.OS == SelectedOSFilter.OSName);
-            if (SelectedConditionFilter != null)
+            if (!string.IsNullOrEmpty(SelectedBrandFilter))
+                query = query.Where(p => p.Brand == SelectedBrandFilter);
+            if (!string.IsNullOrEmpty(SelectedModelFilter))
+                query = query.Where(p => p.Model == SelectedModelFilter);
+            if (!string.IsNullOrEmpty(SelectedOSFilter))
+                query = query.Where(p => p.OS == SelectedOSFilter);
+            if (SelectedConditionFilter != null && SelectedConditionFilter != PhoneCondition.None)
                 query = query.Where(p => p.Condition == SelectedConditionFilter);
-            if (SelectedPhoneStateFilter != null)
+            if (SelectedPhoneStateFilter != null && SelectedPhoneStateFilter != PhoneState.None)
                 query = query.Where(p => p.PhoneState == SelectedPhoneStateFilter);
-            if (SelectedPhoneStatusFilter != null)
+            if (SelectedPhoneStatusFilter != null && SelectedPhoneStatusFilter != PhoneStatus.None)
                 query = query.Where(p => p.Status == SelectedPhoneStatusFilter);
-            if (SelectedPasscodeTypeFilter != null)
+            if (SelectedPasscodeTypeFilter != null && SelectedPasscodeTypeFilter != PasscodeType.None)
                 query = query.Where(p => p.PasscodeType == SelectedPasscodeTypeFilter);
 
             var filtered = query.OrderBy(p => p.Id).Limit(PageSize).ToList();

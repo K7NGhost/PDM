@@ -6,47 +6,74 @@
       xmlns:local="clr-namespace:PDM.ui.Pages" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:AdminPageViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AdminPage">
+      Title="AdminPage" UseLayoutRounding="True">
 
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
-        <StackPanel >
-            <Border BorderBrush="{DynamicResource TagColorBrush}" BorderThickness="0,0,0,1">
-                <StackPanel Margin="0,20">
-                    <TextBlock Text="Phone Brand:" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <TextBox Text="{Binding BrandInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
-                </StackPanel>
-                
-            </Border>
-            
+        <Border Background="{DynamicResource BackgroundSecondaryBrush}" BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" CornerRadius="10" Margin="10" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect/>
+            </Border.Effect>
 
-            <Border BorderBrush="{DynamicResource TagColorBrush}" BorderThickness="0,0,0,1">
-                <Grid Margin="0,20">
+
+            <StackPanel>
+                <Grid Margin="10">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="2*"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Phone Brand:" Foreground="{DynamicResource TextNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                    <TextBox Grid.Column="1" Text="{Binding ModelBrandInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" Foreground="{DynamicResource TextNormalBrush}"></TextBox>
-
-                    <TextBlock Grid.Column="2" Text="Phone Model:" Foreground="{DynamicResource TextNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBox Grid.Column="3" Text="{Binding ModelInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+                    <TextBlock Text="Phone Brand:" Foreground="{DynamicResource TextNormalBrush}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <TextBox Grid.Column="1" Text="{Binding BrandInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <TextBox.Effect>
+                            <DropShadowEffect/>
+                        </TextBox.Effect>
+                    </TextBox>
                 </Grid>
-            </Border>
+
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Phone Brand:" Foreground="{DynamicResource TextNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
+
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Brands}" SelectedItem="{Binding ModelBrandInput}" Margin="0,5,20,5" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+
+                    <TextBlock Grid.Column="2" Text="Phone Model:" Foreground="{DynamicResource TextNormalBrush}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <TextBox Grid.Column="3" Text="{Binding ModelInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <TextBox.Effect>
+                            <DropShadowEffect/>
+                        </TextBox.Effect>
+                    </TextBox>
+                </Grid>
+
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Phone OS:" Foreground="{DynamicResource TextNormalBrush}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <TextBox Grid.Column="1" Text="{Binding OSInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <TextBox.Effect>
+                            <DropShadowEffect/>
+                        </TextBox.Effect>
+                    </TextBox>
+                </Grid>
 
 
-            <Border BorderBrush="{DynamicResource TagColorBrush}" BorderThickness="0,0,0,1">
-                <StackPanel Margin="0,20">
-                    <TextBlock Text="Phone OS:" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <TextBox Text="{Binding OSInput, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
-                </StackPanel>
-            </Border>
-            
-
-            <Button Content="Save to Database"
-                Command="{Binding SaveCommand}"
-                Margin="20,20" Foreground="{DynamicResource TextNormalBrush}"/>
-        </StackPanel>
+                <Button Content="Save to Database"
+         Command="{Binding SaveCommand}"
+         Margin="20" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                    <Button.Effect>
+                        <DropShadowEffect/>
+                    </Button.Effect>
+                </Button>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

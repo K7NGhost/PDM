@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:PDM.ui" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneListViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PhoneList">
+      Title="PhoneList" UseLayoutRounding="True">
 
     <Page.Resources>
         <Style x:Key="DataGridWrappedTextBlockStyle" TargetType="TextBlock">
@@ -31,14 +31,22 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10">
-                    <Button Content="Filter By" Command="{Binding OpenFilterCommand}" Foreground="{DynamicResource TextNormalBrush}" Width="150" BorderBrush="{DynamicResource TextNormalBrush}" Margin="0,0,20,0"></Button>
-                    <Button Content="Clear Filters" Command="{Binding ClearFilterCommand}" Width="100" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}"></Button>
+                    <Button Content="Filter By" Command="{Binding OpenFilterCommand}" Foreground="{DynamicResource TextNormalBrush}" Width="150" BorderBrush="{DynamicResource TextNormalBrush}" Margin="0,0,20,0">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
+                    <Button Content="Clear Filters" Command="{Binding ClearFilterCommand}" Width="100" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
                 </StackPanel>
                 
             </Grid>
         </Border>
 
-        <DataGrid Grid.Row="1" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" ItemsSource="{Binding Phones}" HorizontalContentAlignment="Center" IsReadOnly="True">
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" ItemsSource="{Binding Phones}" HorizontalContentAlignment="Center" IsReadOnly="True" Background="{DynamicResource BackgroundSecondaryBrush}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Margin="10">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <!-- Put the VM on the row.Tag -->
@@ -78,7 +86,7 @@
                 <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Border Grid.Row="2" BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="0,1,1,0">
+        <Border Grid.Row="2" BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" Margin="10" CornerRadius="10" Background="{DynamicResource BackgroundSecondaryBrush}">
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Page:" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                 <TextBlock Text="{Binding CurrentPage}" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>

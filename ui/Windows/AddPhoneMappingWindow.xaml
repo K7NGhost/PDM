@@ -6,44 +6,92 @@
         xmlns:local="clr-namespace:PDM.ui.Windows" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneLookupViewModel}"
         mc:Ignorable="d"
         Title="Add Record" Height="450" Width="400">
+
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" CornerRadius="10" Margin="10" Padding="20" Background="{DynamicResource BackgroundSecondaryBrush}">
+            <Grid UseLayoutRounding="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-        <!-- Manufacturer ID -->
-        <StackPanel Orientation="Horizontal" Margin="10">
-            <TextBlock Text="Manufacturer ID:" Width="120" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"/>
-            <TextBox Text="{Binding SelectedItem.ManufacturerId}" Width="200"/>
-        </StackPanel>
+                <!-- Manufacturer ID -->
+                <Grid Grid.Row="0" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
-        <!-- Brand -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10">
-            <TextBlock Text="Brand:" Width="120" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"/>
-            <ComboBox ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedItem.Brand}" Width="200"></ComboBox>
-        </StackPanel>
+                    <TextBlock Text="Manufacturer ID:" Width="120" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <TextBox Grid.Column="1" Text="{Binding SelectedItem.ManufacturerId}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <TextBox.Effect>
+                            <DropShadowEffect/>
+                        </TextBox.Effect>
+                    </TextBox>
+                </Grid>
 
-        <!-- Model -->
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="10">
-            <TextBlock Text="Model:" Width="120" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"/>
-            <ComboBox ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedItem.Model}" Width="200"></ComboBox>
-        </StackPanel>
+                <!-- Brand -->
+                <Grid Grid.Row="1" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
-        <!-- Release Year -->
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="10">
-            <TextBlock Text="Release Year:" Width="120" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"/>
-            <TextBox Text="{Binding SelectedItem.ReleaseYear}" Width="200"/>
-        </StackPanel>
+                    <TextBlock Text="Brand:" Width="120" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedItem.Brand}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
 
-        <!-- Buttons -->
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Content="Save" Width="80" Margin="0,0,10,0" IsDefault="True" Foreground="{DynamicResource TextNormalBrush}" Click="Save_Click"/>
-            <Button Content="Cancel" Width="80" IsCancel="True" Foreground="{DynamicResource TextNormalBrush}" Click="Cancel_Click"/>
-        </StackPanel>
+                <!-- Model -->
+                <Grid Grid.Row="2" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Model:" Width="120" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Models}" SelectedItem="{Binding SelectedItem.Model}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
+
+                <!-- Release Year -->
+                <Grid Grid.Row="3" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Release Year:" Width="120" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <TextBox Grid.Column="1" Text="{Binding SelectedItem.ReleaseYear}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <TextBox.Effect>
+                            <DropShadowEffect/>
+                        </TextBox.Effect>
+                    </TextBox>
+                </Grid>
+
+                <!-- Buttons -->
+                <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                    <Button Content="Save" Width="80" Margin="0,0,10,0" IsDefault="True" Foreground="{DynamicResource TextNormalBrush}" Click="Save_Click" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
+                    <Button Content="Cancel" Width="80" IsCancel="True" Foreground="{DynamicResource TextNormalBrush}" Click="Cancel_Click" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
+
 </Window>

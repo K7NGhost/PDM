@@ -5,15 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDM.ui.Windows"
         mc:Ignorable="d"
-        Title="AdminLoginWindow" Height="150" Width="400">
+        Title="AdminLoginWindow" Height="220" Width="500" UseLayoutRounding="True">
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
-        <StackPanel>
-            <TextBlock Text="Enter Admin Password:" FontWeight="Bold" Margin="0,0,0,10"></TextBlock>
-            <PasswordBox x:Name="PasswordInput" Height="30" Margin="0,0,0,20"></PasswordBox>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="OK" Width="80" Margin="0,0,10,0" Click="Ok_Click"></Button>
-                <Button Content="Cancel" Width="80" Click="Cancel_Click"></Button>
+        <Border BorderBrush="{DynamicResource TextNormalBrush}" Background="{DynamicResource BackgroundSecondaryBrush}" Margin="10" Padding="20" BorderThickness="1" CornerRadius="10">
+            <Border.Effect>
+                <DropShadowEffect/>
+            </Border.Effect>
+            <StackPanel>
+                <TextBlock Text="Enter Admin Password:" FontWeight="Bold" Margin="0,0,0,10" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                <PasswordBox x:Name="PasswordInput" Height="30" Margin="0,0,0,20" BorderBrush="{DynamicResource TextNormalBrush}">
+                    <PasswordBox.Effect>
+                        <DropShadowEffect/>
+                    </PasswordBox.Effect>
+                </PasswordBox>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="OK" Width="80" Margin="0,0,10,0" Click="Ok_Click" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
+                    <Button Content="Cancel" Width="80" Click="Cancel_Click" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </Border>
+        
     </Grid>
 </Window>

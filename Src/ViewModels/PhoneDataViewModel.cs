@@ -25,19 +25,20 @@ namespace PDM.Src.ViewModels
     {
         private readonly ILogger<PhoneDataViewModel> _logger;
         public bool IsEditMode { get; set; }
-        public ObservableCollection<PhoneBrand> Brands { get; }
+        public ObservableCollection<string> Brands { get; }
         public ObservableCollection<PhoneModel> Models { get; }
-        public ObservableCollection<PhoneOS> OSes { get; }
+        public ObservableCollection<string> ModelList { get; }
+        public ObservableCollection<string> OSes { get; }
         public ObservableCollection<PhoneState> PhoneStates { get; }
         public ObservableCollection<PasscodeType> PasscodeTypes { get; }
         public ObservableCollection<PhoneCondition> PhoneConditions { get; }
         public ObservableCollection<PhoneStatus> PhoneStatuses { get; }
-        public ObservableCollection<PhoneModel> FilteredModels { get; } = new();
-        public ObservableCollection<PhoneOS> FilteredOses { get; } = new();
+        public ObservableCollection<string> FilteredModels { get; } = new();
+        public ObservableCollection<string> FilteredOses { get; } = new();
         private DatabaseManager _dbManager = App.ServiceProvider.GetRequiredService<DatabaseManager>();
         public int GroupNumber => GetOrCreateGroupNumber(SelectedModel);
      
-        private Dictionary<string, List<PhoneModel>> BrandModelMap { get; }
+        public Dictionary<string, List<string>> BrandModelMap { get; private set; }
 
         private Phone _selectedPhone = new();
         public Phone SelectedPhone
@@ -49,16 +50,15 @@ namespace PDM.Src.ViewModels
                 OnPropertyChanged(nameof(SelectedPhone));
                 if (!string.IsNullOrEmpty(_selectedPhone.Brand))
                 {
-                    SelectedBrand = Brands.FirstOrDefault(b =>
-                        b.BrandName.Equals(_selectedPhone.Brand, StringComparison.OrdinalIgnoreCase));
+                    SelectedBrand = Brands.FirstOrDefault(b => string.Equals(b, _selectedPhone.Brand, StringComparison.OrdinalIgnoreCase));
                 }
 
             }
         }
 
         // Know when a brand is selected
-        private PhoneBrand? _selectedBrand;
-        public PhoneBrand? SelectedBrand
+        private string? _selectedBrand;
+        public string? SelectedBrand
         {
             get => _selectedBrand;
             set
@@ -66,7 +66,7 @@ namespace PDM.Src.ViewModels
                 if (_selectedBrand != value)
                 {
                     _selectedBrand = value;
-                    SelectedPhone.Brand = _selectedBrand.BrandName;
+                    SelectedPhone.Brand = _selectedBrand ?? string.Empty;
                     OnPropertyChanged(nameof(SelectedBrand));
                     UpdateModels();
                     UpdateOSes();
@@ -74,15 +74,15 @@ namespace PDM.Src.ViewModels
             }
         }
 
-        private PhoneModel _selectedModel;
-        public PhoneModel SelectedModel
+        private string _selectedModel;
+        public string SelectedModel
         {
             get => _selectedModel;
             set
             {
                 _selectedModel = value;
                 if (_selectedModel != null)
-                    SelectedPhone.Model = _selectedModel.ModelName;
+                    SelectedPhone.Model = _selectedModel ?? string.Empty;
                 else
                     SelectedPhone.Model = null;
                 OnPropertyChanged(nameof(SelectedModel));
@@ -135,25 +135,25 @@ namespace PDM.Src.ViewModels
             if (db != null)
             {
                 var brandCol = db.GetCollection<PhoneBrand>("brands");
-                Brands = new ObservableCollection<PhoneBrand>([.. brandCol.FindAll()]);
+                Brands = new ObservableCollection<string>(brandCol.FindAll().Select(b => b.BrandName));
 
                 var modelCol = db.GetCollection<PhoneModel>("models");
                 Models = new ObservableCollection<PhoneModel>(modelCol.FindAll().ToList());
-
+                ModelList = new ObservableCollection<string>(Models.Select(m => m.ModelName));
                 BrandModelMap = Brands.ToDictionary(
-                    b => b.BrandName,
-                    b => Models.Where(m => m.Brand.Contains(b.BrandName, StringComparison.OrdinalIgnoreCase)).ToList()
-                    );
+                                    b => b,
+                                    b => Models.Where(m => m.Brand.Contains(b, StringComparison.OrdinalIgnoreCase)).Select(m => m.ModelName).ToList()
+                                    );
 
                 var osCol = db.GetCollection<PhoneOS>("oses");
-                OSes = new ObservableCollection<PhoneOS>(osCol.FindAll().ToList());
+                OSes = new ObservableCollection<string>(osCol.FindAll().Select(o => o.OSName));
                 PhoneStates = new ObservableCollection<PhoneState>(Enum.GetValues<PhoneState>());
                 PasscodeTypes = new ObservableCollection<PasscodeType>(Enum.GetValues<PasscodeType>());
                 PhoneConditions = new ObservableCollection<PhoneCondition>(Enum.GetValues<PhoneCondition>());
                 PhoneStatuses = new ObservableCollection<PhoneStatus>(Enum.GetValues<PhoneStatus>());
                 _nextPhoneId = _dbManager.GetNextPhoneId();
 
-                SaveCommand = new RelayCommand(Save);
+                SaveCommand = new RelayCommand(Save, CanSave);
                 CancelCommand = new RelayCommand(Cancel);
                 UploadImageCommand = new RelayCommand(UploadImage);
             }
@@ -164,6 +164,11 @@ namespace PDM.Src.ViewModels
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(SelectedPhone.Brand) || string.IsNullOrWhiteSpace(SelectedPhone.Model))
+                {
+                    MessageBox.Show("Brand and Model cannot be empty.");
+                    return;
+                }
                 if (IsEditMode == true)
                 {
                     _dbManager.UpdatePhone(SelectedPhone);
@@ -191,6 +196,11 @@ namespace PDM.Src.ViewModels
             }
         }
 
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(SelectedPhone.Brand) && !string.IsNullOrWhiteSpace(SelectedPhone.Model);
+        }
+
         private void Cancel()
         {
             // Cancel logic here
@@ -199,8 +209,8 @@ namespace PDM.Src.ViewModels
         private void UpdateModels()
         {
             FilteredModels.Clear();
-            if (SelectedBrand != null && !string.IsNullOrEmpty(SelectedBrand.BrandName) &&
-                BrandModelMap.TryGetValue(SelectedBrand.BrandName, out var models))
+            if (SelectedBrand != null && !string.IsNullOrEmpty(SelectedBrand) &&
+                BrandModelMap.TryGetValue(SelectedBrand, out var models))
             {
                 foreach (var model in models.AsEnumerable().Reverse())
                     FilteredModels.Add(model);
@@ -212,13 +222,13 @@ namespace PDM.Src.ViewModels
         {
             FilteredOses.Clear();
 
-            if (SelectedBrand != null && !string.IsNullOrWhiteSpace(SelectedBrand.BrandName))
+            if (SelectedBrand != null && !string.IsNullOrWhiteSpace(SelectedBrand))
             {
-                var osList = SelectedBrand.BrandName.Equals("Apple", StringComparison.OrdinalIgnoreCase)
-                    ? OSes.Where(o => !string.IsNullOrWhiteSpace(o.OSName) &&
-                                      o.OSName.Contains("iOS", StringComparison.OrdinalIgnoreCase))
-                    : OSes.Where(o => !string.IsNullOrWhiteSpace(o.OSName) &&
-                                      o.OSName.Contains("Android", StringComparison.OrdinalIgnoreCase));
+                var osList = string.Equals(SelectedBrand, "Apple", StringComparison.OrdinalIgnoreCase)
+                    ? OSes.Where(o => !string.IsNullOrWhiteSpace(o) &&
+                                      o.Contains("iOS", StringComparison.OrdinalIgnoreCase))
+                    : OSes.Where(o => !string.IsNullOrWhiteSpace(o) &&
+                                      o.Contains("Android", StringComparison.OrdinalIgnoreCase));
 
                 foreach (var os in osList.AsEnumerable().Reverse())
                     FilteredOses.Add(os);
@@ -240,15 +250,15 @@ namespace PDM.Src.ViewModels
             }
         }
 
-        public int GetOrCreateGroupNumber(PhoneModel phoneModel)
+        public int GetOrCreateGroupNumber(string phoneModel)
         {
-            if (phoneModel == null || string.IsNullOrWhiteSpace(phoneModel.ModelName))
+            if (phoneModel == null || string.IsNullOrWhiteSpace(phoneModel))
             {
                 return 0;
             }
             _logger.LogInformation($"In getorcreategroupnumber with phone model {phoneModel}");
             var phoneCollection = App.ServiceProvider.GetRequiredService<DatabaseManager>().GetDatabase().GetCollection<Phone>("phones");
-            var existingModel = phoneCollection.FindOne(x => x.Model == phoneModel.ModelName);
+            var existingModel = phoneCollection.FindOne(x => x.Model == phoneModel);
             
             if (existingModel != null && existingModel.GroupId != null)
             {
@@ -268,8 +278,23 @@ namespace PDM.Src.ViewModels
             return newGroupNumber;
         }
 
+        public void RefreshData()
+        {
+            BrandModelMap = Brands.ToDictionary(b => b, b => Models.Where(m => m.Brand.Contains(b, StringComparison.OrdinalIgnoreCase)).Select(m => m.ModelName).ToList());
+            UpdateModels();
+            UpdateOSes();
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string name) =>
+        protected void OnPropertyChanged(string name)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+            if (name == nameof(SelectedPhone) || name == nameof(SelectedModel) || name == nameof(SelectedBrand))
+            {
+                (SaveCommand as RelayCommand)?.NotifyCanExecuteChanged();
+            }
+        }
+            
     }
 }

@@ -5,84 +5,128 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDM.ui.Windows" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneDataViewModel}"
         mc:Ignorable="d"
-        Title="FilterWindow" Height="500" Width="350">
+        Title="FilterWindow" Height="550" Width="400">
+
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
-        <StackPanel Margin="5">
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="Brand:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                <ComboBox Grid.Column="1" ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedPhone.Brand}"/>
-            </Grid>
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Model:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                <ComboBox ItemsSource="{Binding Models}" Grid.Column="1" SelectedItem="{Binding SelectedPhone.Model}"/>
-            </Grid>
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="OS:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                <ComboBox ItemsSource="{Binding OSes}" SelectedItem="{Binding SelectedPhone.OS}" Grid.Column="1"/>
-            </Grid>
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
+        <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" Padding="20" CornerRadius="20" Margin="10" Background="{DynamicResource BackgroundSecondaryBrush}">
+            <StackPanel Margin="5" UseLayoutRounding="True">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Brand:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedPhone.Brand}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Model:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
 
-                <TextBlock Text="Condition:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <ComboBox ItemsSource="{Binding PhoneConditions}" SelectedItem="{Binding SelectedPhone.Condition}" Grid.Column="1"/>
-            </Grid>
+                    <ComboBox ItemsSource="{Binding Models}" Grid.Column="1" SelectedItem="{Binding SelectedPhone.Model}" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect></DropShadowEffect>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="OS:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <ComboBox ItemsSource="{Binding OSes}" SelectedItem="{Binding SelectedPhone.OS}" Grid.Column="1" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Phone State:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                <ComboBox ItemsSource="{Binding PhoneStates}" SelectedItem="{Binding SelectedPhone.PhoneState}" Grid.Column="1"/>
-            </Grid>
+                    <TextBlock Text="Condition:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <ComboBox ItemsSource="{Binding PhoneConditions}" SelectedItem="{Binding SelectedPhone.Condition}" Grid.Column="1" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
 
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Phone Status:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                <ComboBox ItemsSource="{Binding PhoneStatuses}" SelectedItem="{Binding SelectedPhone.Status}" Grid.Column="1"/>
-            </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Phone State:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <ComboBox ItemsSource="{Binding PhoneStates}" SelectedItem="{Binding SelectedPhone.PhoneState}" Grid.Column="1" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
 
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Passcode Type:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                <ComboBox ItemsSource="{Binding PasscodeTypes}" SelectedItem="{Binding SelectedPhone.PasscodeType}" Grid.Column="1"/>
-            </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Phone Status:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <ComboBox ItemsSource="{Binding PhoneStatuses}" SelectedItem="{Binding SelectedPhone.Status}" Grid.Column="1" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
 
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Passcode Type:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <ComboBox ItemsSource="{Binding PasscodeTypes}" SelectedItem="{Binding SelectedPhone.PasscodeType}" Grid.Column="1" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
 
-                <TextBlock Text="Passcode Length:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                <TextBlock Grid.Column="1"/>
-            </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20,10,10">
-                <Button Content="Apply" Width="75" Margin="0,0,10,0" Click="Apply_Click"></Button>
-                <Button Content="Cancel" Width="75" Click="Cancel_Click" Margin="10,0,0,0"></Button>
+                    <TextBlock Text="Passcode Length:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <TextBox Grid.Column="1" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <TextBox.Effect>
+                            <DropShadowEffect/>
+                        </TextBox.Effect>
+                    </TextBox>
+                </Grid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20,10,10">
+                    <Button Content="Apply" Width="75" Margin="0,0,10,0" Click="Apply_Click" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
+                    <Button Content="Cancel" Width="75" Click="Cancel_Click" Margin="10,0,0,0" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </Border>
     </Grid>
 </Window>

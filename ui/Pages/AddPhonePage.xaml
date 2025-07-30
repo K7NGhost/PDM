@@ -7,177 +7,192 @@
       xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels;assembly=PDM" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneDataViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AddPhonePage">
+      Title="AddPhonePage" UseLayoutRounding="True">
 
-    <Grid Margin="10,10,10,5">
+    <Grid Margin="10,10,10,5" Background="{DynamicResource BackgroundPrimaryAltBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Phone Group ID: " Foreground="{DynamicResource TextNormalBrush}"/>
-            <TextBlock Text="{Binding GroupNumber}" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+        <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" CornerRadius="10" Padding="5" Margin="10" Background="{DynamicResource BackgroundSecondaryBrush}">
+            <Border.Effect>
+                <DropShadowEffect/>
+            </Border.Effect>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Phone Group ID: " Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBlock Text="{Binding GroupNumber}" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
 
-            <TextBlock Text="Phone ID: " Foreground="{DynamicResource TextNormalBrush}"/>
-            <TextBlock Text="{Binding NextPhoneId}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
-            
-            
-        </StackPanel>
-
-        <ScrollViewer Grid.Row="1">
-            <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!--Brand-->
-                    <TextBlock Text="Brand:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedBrand}" Margin="5"></ComboBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- Model -->
-                    <TextBlock Text="Model:" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding FilteredModels}" SelectedItem="{Binding SelectedModel}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- IMEI -->
-                    <TextBlock Text="IMEI:" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.IMEI}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- OS -->
-                    <TextBlock Text="OS:" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding FilteredOses}" SelectedItem="{Binding SelectedPhone.OS}"/>
-                </Grid>
-                <!--Specific version-->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Specific Version:" Margin="5" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
-                    <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Version}"></TextBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!--Manufacturer Id-->
-                    <TextBlock Text="Manufacturer Id:" Foreground="{DynamicResource TextNormalBrush}" Margin="5" VerticalAlignment="Center"></TextBlock>
-                    <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.ManufacturerId}"></TextBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- Storage -->
-                    <TextBlock Text="Storage:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Storage}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- Color -->
-                    <TextBlock Text="Color:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Color}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- Condition -->
-                    <TextBlock Text="Condition:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneConditions}" SelectedItem="{Binding SelectedPhone.Condition}"></ComboBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- Phone State -->
-                    <TextBlock Text="Phone State:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStates}" SelectedItem="{Binding SelectedPhone.PhoneState}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!--Phone Status-->
-                    <TextBlock Text="Phone Status:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStatuses}" SelectedItem="{Binding SelectedPhone.Status}"></ComboBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- Passcode Type -->
-                    <TextBlock Text="Passcode Type:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding PasscodeTypes}" SelectedItem="{Binding SelectedPhone.PasscodeType}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- Passcode Length -->
-                    <TextBlock Text="Passcode Length:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.PasscodeLength}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- Notes -->
-                    <TextBlock Text="Notes:" Grid.Column="0" VerticalAlignment="Top" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                    <TextBox Grid.Column="1" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="5" Text="{Binding SelectedPhone.Notes}"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <!-- Image -->
-                    <TextBlock Text="Image:" Grid.Column="0" VerticalAlignment="Top" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
-                    <StackPanel Grid.Column="1">
-                        <Image Margin="10">
-                            <Image.Source>
-                                <Binding Path="PhoneImage"></Binding>
-                            </Image.Source>
-                        </Image>
-                        <Button Content="Upload Image" Command="{Binding UploadImageCommand}"></Button>
-                    </StackPanel>
-                </Grid>
-                
+                <TextBlock Text="Phone ID: " Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBlock Text="{Binding NextPhoneId}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
             </StackPanel>
-        </ScrollViewer>
+        </Border>
         
+        <Border Grid.Row="1" Margin="10" BorderBrush="{DynamicResource TextNormalBrush}" CornerRadius="10" BorderThickness="1" Padding="10" Background="{DynamicResource BackgroundSecondaryBrush}">
+            <Border.Effect>
+                <DropShadowEffect/>
+            </Border.Effect>
+            <ScrollViewer>
+                <StackPanel UseLayoutRounding="True" Margin="0,0,20,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!--Brand-->
+                        <TextBlock Text="Brand:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedBrand}" Margin="5" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"></ComboBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Model -->
+                        <TextBlock Text="Model:" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding FilteredModels}" SelectedItem="{Binding SelectedModel}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- IMEI -->
+                        <TextBlock Text="IMEI:" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.IMEI}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- OS -->
+                        <TextBlock Text="OS:" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding FilteredOses}" SelectedItem="{Binding SelectedPhone.OS}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <!--Specific version-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Specific Version:" Margin="5" VerticalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Version}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!--Manufacturer Id-->
+                        <TextBlock Text="Manufacturer Id:" Foreground="{DynamicResource TextNormalBrush}" Margin="5" VerticalAlignment="Center"></TextBlock>
+                        <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.ManufacturerId}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"></TextBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Storage -->
+                        <TextBlock Text="Storage:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Storage}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Color -->
+                        <TextBlock Text="Color:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Color}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Condition -->
+                        <TextBlock Text="Condition:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneConditions}" SelectedItem="{Binding SelectedPhone.Condition}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"></ComboBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Phone State -->
+                        <TextBlock Text="Phone State:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStates}" SelectedItem="{Binding SelectedPhone.PhoneState}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!--Phone Status-->
+                        <TextBlock Text="Phone Status:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding PhoneStatuses}" SelectedItem="{Binding SelectedPhone.Status}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"></ComboBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Passcode Type -->
+                        <TextBlock Text="Passcode Type:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding PasscodeTypes}" SelectedItem="{Binding SelectedPhone.PasscodeType}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Passcode Length -->
+                        <TextBlock Text="Passcode Length:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.PasscodeLength}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Notes -->
+                        <TextBlock Text="Notes:" Grid.Column="0" VerticalAlignment="Top" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <TextBox Grid.Column="1" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="5" Text="{Binding SelectedPhone.Notes}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Image -->
+                        <TextBlock Text="Image:" Grid.Column="0" VerticalAlignment="Top" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <StackPanel Grid.Column="1">
+                            <Image Margin="10">
+                                <Image.Source>
+                                    <Binding Path="PhoneImage"></Binding>
+                                </Image.Source>
+                            </Image>
+                            <Button Content="Upload Image" Command="{Binding UploadImageCommand}"></Button>
+                        </StackPanel>
+                    </Grid>
 
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-            <Button Content="Save" Margin="0,0,10,0" Command="{Binding SaveCommand}"></Button>
-            <Button Content="Cancel" Margin="10,0,0,0"></Button>
+            <Button Content="Save" Margin="0,0,10,0" Command="{Binding SaveCommand}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Width="70">
+                <Button.Effect>
+                    <DropShadowEffect/>
+                </Button.Effect>
+            </Button>
+            <Button Content="Cancel" Margin="10,0,0,0" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Width="70">
+                <Button.Effect>
+                    <DropShadowEffect/>
+                </Button.Effect>
+            </Button>
         </StackPanel>
     </Grid>
 </Page>
