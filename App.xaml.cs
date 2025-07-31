@@ -42,6 +42,7 @@ namespace PDM
             services.AddSingleton<PhoneLookupViewModel>();
             services.AddSingleton<AdminPageViewModel>();
             services.AddSingleton<DashboardViewModel>();
+            services.AddSingleton<SettingsViewModel>();
 
             // Views
             services.AddTransient<AddPhonePage>();
@@ -49,6 +50,7 @@ namespace PDM
             services.AddSingleton<PhoneListPage>();
             services.AddSingleton<MainWindow>();
             services.AddSingleton<DashboardPage>();
+            services.AddTransient<SettingsPage>();
         }
     }
 

@@ -36,7 +36,7 @@
                         <Button Content="Phone List" HorizontalAlignment="Stretch" Click="NavToPhoneListPage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
                         <Button Content="Add Phone" HorizontalAlignment="Stretch" Click="NavToAddPhonePage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
                         <Button Content="Identify Phone" HorizontalAlignment="Stretch" Click="NavToIdPhonePage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
-                        <Button Content="Settings" HorizontalAlignment="Stretch" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></Button>
+                        <Button Content="Settings" HorizontalAlignment="Stretch" Margin="5" Foreground="{DynamicResource TextNormalBrush}" Click="NavToSettingsPage_Click"></Button>
                         <Button Content="Import/Export" HorizontalAlignment="Stretch" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
                         <Button Content="Admin Only" HorizontalAlignment="Stretch" Margin="5" Click="NavToAdminPage_Click" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
                     </StackPanel>

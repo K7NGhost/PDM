@@ -81,5 +81,11 @@ namespace PDM
                 MainFrame.Navigate(adminPage);
             }
         }
+
+        private void NavToSettingsPage_Click(object sender, RoutedEventArgs e)
+        {
+            var settingsPage = App.ServiceProvider.GetRequiredService<SettingsPage>();
+            MainFrame.Navigate(settingsPage);
+        }
     }
 }
