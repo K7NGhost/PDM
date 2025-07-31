@@ -41,6 +41,7 @@ namespace PDM
             services.AddSingleton<PopupEditViewModel>();
             services.AddSingleton<PhoneLookupViewModel>();
             services.AddSingleton<AdminPageViewModel>();
+            services.AddSingleton<DashboardViewModel>();
 
             // Views
             services.AddTransient<AddPhonePage>();

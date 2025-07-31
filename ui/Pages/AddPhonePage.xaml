@@ -188,7 +188,7 @@
                     <DropShadowEffect/>
                 </Button.Effect>
             </Button>
-            <Button Content="Cancel" Margin="10,0,0,0" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Width="70">
+            <Button Content="Cancel" Margin="10,0,0,0" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Width="70" Command="{Binding CancelCommand}">
                 <Button.Effect>
                     <DropShadowEffect/>
                 </Button.Effect>

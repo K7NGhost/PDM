@@ -43,6 +43,7 @@ namespace PDM.Src.Models
             _db = new LiteDatabase(path);
             DatabasePath = path;
             App.ServiceProvider.GetRequiredService<PhoneListViewModel>().ReloadPhones();
+            App.ServiceProvider.GetRequiredService<DashboardViewModel>().LoadData();
         }
 
         public LiteDatabase GetDatabase()
@@ -134,6 +135,13 @@ namespace PDM.Src.Models
                     mapCol.Insert(new PhoneMapping { Brand = parts[0], Model = parts[1], ManufacturerId = parts[2], ReleaseYear = Int32.Parse(parts[3]) });
                 }
             }
+        }
+
+        public void DeletePhone(int phoneId)
+        {
+            var db = GetDatabase();
+            var col = db.GetCollection<Phone>("phones");
+            col.Delete(phoneId);
         }
 
         /// <summary>

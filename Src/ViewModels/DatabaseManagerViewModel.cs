@@ -23,6 +23,17 @@ namespace PDM.Src.ViewModels
 
         public string? Path => _dbManager.DatabasePath;
 
+        private bool _isDatabaseAvailable;
+        public bool IsDatabaseAvailable
+        {
+            get => _isDatabaseAvailable;
+            set
+            {
+                _isDatabaseAvailable = value;
+                OnPropertyChanged(nameof(IsDatabaseAvailable));
+            }
+        }
+
         public DatabaseManagerViewModel()
         {
             CreateNewCommand = new RelayCommand(CreateNew, () => true);
@@ -65,6 +76,8 @@ namespace PDM.Src.ViewModels
                 try
                 {
                     _dbManager.Open(dlg.FileName);
+                    IsDatabaseAvailable = _dbManager.GetDatabase() != null;
+                    OnPropertyChanged(nameof(IsDatabaseAvailable));
                     OnPropertyChanged(nameof(Path));
                     MessageBox.Show("Database opened.");
                 }

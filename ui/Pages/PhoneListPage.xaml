@@ -56,6 +56,7 @@
                         <Setter.Value>
                             <ContextMenu>
                                 <MenuItem Header="Edit" Command="{Binding PlacementTarget.Tag.EditPhoneCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DeletePhoneCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}"></MenuItem>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Background="{DynamicResource BackgroundSecondaryBrush}" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource TextNormalBrush}">
             <Menu>
-                <MenuItem Header="File">
+                <MenuItem Header="File" Foreground="{DynamicResource TextNormalBrush}">
                     <MenuItem Header="Create New DB" Command="{Binding CreateNewCommand}"></MenuItem>
                     <MenuItem Header="Open DB" Command="{Binding OpenCommand}"></MenuItem>
                 </MenuItem>
@@ -32,13 +32,13 @@
                 </Grid.ColumnDefinitions>
                 <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="0,0,1,0" Background="{DynamicResource BackgroundSecondaryBrush}">
                     <StackPanel Orientation="Vertical">
-                        <Button Content="Dashboard" HorizontalAlignment="Stretch" Click="NavToDashboardPage_Click" Margin="0,0,0,10"/>
-                        <Button Content="Phone List" HorizontalAlignment="Stretch" Click="NavToPhoneListPage_Click" Margin="0,0,0,10"></Button>
-                        <Button Content="Add Phone" HorizontalAlignment="Stretch" Click="NavToAddPhonePage_Click" Margin="0,0,0,10"></Button>
-                        <Button Content="Identify Phone" HorizontalAlignment="Stretch" Click="NavToIdPhonePage_Click" Margin="0,0,0,10"></Button>
-                        <Button Content="Settings" HorizontalAlignment="Stretch" Margin="0,0,0,10"></Button>
-                        <Button Content="Import/Export" HorizontalAlignment="Stretch" Margin="0,0,0,10"></Button>
-                        <Button Content="Admin Only" HorizontalAlignment="Stretch" Margin="0,0,0,10" Click="NavToAdminPage_Click"></Button>
+                        <Button Content="Dashboard" HorizontalAlignment="Stretch" Click="NavToDashboardPage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <Button Content="Phone List" HorizontalAlignment="Stretch" Click="NavToPhoneListPage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
+                        <Button Content="Add Phone" HorizontalAlignment="Stretch" Click="NavToAddPhonePage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
+                        <Button Content="Identify Phone" HorizontalAlignment="Stretch" Click="NavToIdPhonePage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
+                        <Button Content="Settings" HorizontalAlignment="Stretch" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></Button>
+                        <Button Content="Import/Export" HorizontalAlignment="Stretch" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
+                        <Button Content="Admin Only" HorizontalAlignment="Stretch" Margin="5" Click="NavToAdminPage_Click" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
                     </StackPanel>
                 </Border>
 
@@ -55,13 +55,21 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
-                    <TextBlock Text="Current Database Loaded: "></TextBlock>
-                    <TextBlock Text="{Binding Path}" FontWeight="Bold"></TextBlock>
+                    <TextBlock Text="Current Database Loaded: " Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <TextBlock Text="{Binding Path}" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                 </StackPanel>
 
                 <StackPanel Margin="10" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button Content="Back" Click="NavToPrevPage_Click" Margin="0,0,10,0"></Button>
-                    <Button Content="Next" Click="NavToNextPage_Click"></Button>
+                    <Button Content="Back" Click="NavToPrevPage_Click" Margin="0,0,10,0" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Width="70">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
+                    <Button Content="Next" Click="NavToNextPage_Click" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Width="70">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
                 </StackPanel>
             </Grid>
             

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PDM.Src.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,7 @@ namespace PDM.ui.Pages
         public DashboardPage()
         {
             InitializeComponent();
+            DataContext = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
         }
     }
 }

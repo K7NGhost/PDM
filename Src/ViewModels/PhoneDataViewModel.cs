@@ -187,7 +187,8 @@ namespace PDM.Src.ViewModels
                     NextPhoneId = _dbManager.GetNextPhoneId();
                     OnPropertyChanged(nameof(NextPhoneId));
                 }
-                    
+                App.ServiceProvider.GetRequiredService<DashboardViewModel>().LoadData();
+                RefreshData();
                 App.ServiceProvider.GetRequiredService<PhoneListViewModel>().ReloadPhones();
             }
             catch (Exception ex)
@@ -198,12 +199,16 @@ namespace PDM.Src.ViewModels
 
         private bool CanSave()
         {
+            _logger.LogInformation($"Current in CanSave with value of Brand={SelectedPhone.Brand}, Model={SelectedPhone.Model}");
             return !string.IsNullOrWhiteSpace(SelectedPhone.Brand) && !string.IsNullOrWhiteSpace(SelectedPhone.Model);
         }
 
         private void Cancel()
         {
-            // Cancel logic here
+            RefreshData();
+            SelectedPhone = new Phone();
+            OnPropertyChanged(nameof(SelectedPhone));
+            OnPropertyChanged(nameof(PhoneImage));
         }
 
         private void UpdateModels()
@@ -245,7 +250,6 @@ namespace PDM.Src.ViewModels
             if (openFileDialog.ShowDialog() == true)
             {
                 SelectedPhone.ImageData = File.ReadAllBytes(openFileDialog.FileName);
-                OnPropertyChanged(nameof(SelectedPhone));
                 OnPropertyChanged(nameof(PhoneImage));
             }
         }
@@ -280,7 +284,36 @@ namespace PDM.Src.ViewModels
 
         public void RefreshData()
         {
-            BrandModelMap = Brands.ToDictionary(b => b, b => Models.Where(m => m.Brand.Contains(b, StringComparison.OrdinalIgnoreCase)).Select(m => m.ModelName).ToList());
+            var db = _dbManager.GetDatabase();
+            if (db == null) return;
+
+
+            // Refresh Brands
+            var brandCol = db.GetCollection<PhoneBrand>("brands");
+            Brands.Clear();
+            foreach (var brand in brandCol.FindAll().Select(b => b.BrandName))
+                Brands.Add(brand);
+
+            // Refresh Models
+            var modelCol = db.GetCollection<PhoneModel>("models");
+            Models.Clear();
+            foreach (var model in modelCol.FindAll())
+                Models.Add(model);
+
+            // Refresh OSes
+            var osCol = db.GetCollection<PhoneOS>("oses");
+            OSes.Clear();
+            foreach (var os in osCol.FindAll())
+                OSes.Add(os.OSName);
+
+            // Rebuild brand -> model mapping
+            BrandModelMap = Brands.ToDictionary(
+                b => b,
+                b => Models.Where(m => m.Brand.Contains(b, StringComparison.OrdinalIgnoreCase))
+                           .Select(m => m.ModelName)
+                           .ToList()
+            );
+
             UpdateModels();
             UpdateOSes();
         }

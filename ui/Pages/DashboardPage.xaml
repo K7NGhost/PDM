@@ -4,11 +4,86 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PDM.ui.Pages"
+      xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:DashboardViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="DashboardPage">
+      Title="DashboardPage" UseLayoutRounding="True">
 
     <Grid>
-        
+        <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0" Margin="10" BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" CornerRadius="10" Background="{DynamicResource BackgroundSecondaryBrush}">
+                <Border.Effect>
+                    <DropShadowEffect/>
+                </Border.Effect>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Welcome to PDM" FontSize="34" FontWeight="Bold" Foreground="{DynamicResource TitlebarTextColorFocusedBrush}">
+                        <TextBlock.Effect>
+                            <DropShadowEffect/>
+                        </TextBlock.Effect></TextBlock>
+                    <TextBlock Text="Created By: Kevin Argueta" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Grid.Row="0" BorderThickness="1" CornerRadius="10" BorderBrush="{DynamicResource TextNormalBrush}" Margin="10" Background="{DynamicResource BackgroundSecondaryBrush}">
+                <Border.Effect>
+                    <DropShadowEffect/>
+                </Border.Effect>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Phones by Brand" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}" HorizontalAlignment="Center"></TextBlock>
+                    <lvc:PieChart Grid.Row="1" Series="{Binding BrandSeries}">
+                        <lvc:PieChart.Effect>
+                            <DropShadowEffect/>
+                        </lvc:PieChart.Effect>
+                    </lvc:PieChart>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="0" Grid.Row="1" BorderThickness="1" CornerRadius="10" BorderBrush="{DynamicResource TextNormalBrush}" Margin="10" Background="{DynamicResource BackgroundSecondaryBrush}">
+                <Border.Effect>
+                    <DropShadowEffect/>
+                </Border.Effect>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Phones by Status" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}" HorizontalAlignment="Center"></TextBlock>
+                    <lvc:CartesianChart Grid.Row="1" Series="{Binding StatusesSeries}" XAxes="{Binding StatusesXAxis}"/>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="1" Grid.Row="1" BorderThickness="1" CornerRadius="10" BorderBrush="{DynamicResource TextNormalBrush}" Margin="10" Background="{DynamicResource BackgroundSecondaryBrush}">
+                <Border.Effect>
+                    <DropShadowEffect/>
+                </Border.Effect>
+                <StackPanel Margin="10">
+                    <StackPanel>
+                        <TextBlock Text="Total Phones" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <TextBlock Text="{Binding TotalPhones}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Unique Models" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <TextBlock Text="{Binding UniqueModels}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Not Analyzed" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <TextBlock Text="{Binding PhonesNotAnalyzed}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

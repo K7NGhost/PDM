@@ -38,6 +38,7 @@ namespace PDM.Src.ViewModels
         public ICommand EditPhoneCommand { get; }
         public ICommand OpenFilterCommand { get; }
         public ICommand ClearFilterCommand { get; }
+        public ICommand DeletePhoneCommand { get; }
 
         public int CurrentPage
         {
@@ -59,8 +60,25 @@ namespace PDM.Src.ViewModels
             EditPhoneCommand = new RelayCommand<Phone>(OpenEditWindow);
             OpenFilterCommand = new RelayCommand(OpenFilterWindow);
             ClearFilterCommand = new RelayCommand(ClearFilters);
+            DeletePhoneCommand = new RelayCommand<Phone>(DeletePhone);
 
             LoadPage();
+        }
+
+        private void DeletePhone(Phone phone)
+        {
+            if (phone == null)
+            {
+                return;
+            }
+
+            var result = MessageBox.Show($"Are you sure you want to delete {phone.Brand} {phone.Model}?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                var db = App.ServiceProvider.GetRequiredService<DatabaseManager>();
+                db.DeletePhone(phone.Id);
+                Phones.Remove(phone);
+            }
         }
 
         private void OpenFilterWindow()
