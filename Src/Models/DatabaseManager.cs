@@ -31,6 +31,8 @@ namespace PDM.Src.Models
             SeedDatabase(_db);
             // Ensure initial structure
             Phones?.EnsureIndex(x => x.Id, unique:true);
+            App.ServiceProvider.GetRequiredService<PhoneListViewModel>().ReloadPhones();
+            App.ServiceProvider.GetRequiredService<DashboardViewModel>().LoadData();
         }
 
         /// <summary>

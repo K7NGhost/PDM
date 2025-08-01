@@ -172,6 +172,7 @@ namespace PDM.Src.ViewModels
                 if (IsEditMode == true)
                 {
                     _dbManager.UpdatePhone(SelectedPhone);
+                    App.ServiceProvider.GetRequiredService<DashboardViewModel>().LoadData();
                     MessageBox.Show("Phone Updated Successfully!");
                 }
                 else

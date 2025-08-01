@@ -25,7 +25,7 @@
                     <DropShadowEffect/>
                 </Border.Effect>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Welcome to PDM" FontSize="34" FontWeight="Bold" Foreground="{DynamicResource TitlebarTextColorFocusedBrush}">
+                    <TextBlock Text="Welcome to VSP PDM" FontSize="34" FontWeight="Bold" Foreground="{DynamicResource TitlebarTextColorFocusedBrush}">
                         <TextBlock.Effect>
                             <DropShadowEffect/>
                         </TextBlock.Effect></TextBlock>

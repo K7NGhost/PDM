@@ -53,6 +53,8 @@ namespace PDM.Src.ViewModels
                 try
                 {
                     _dbManager.CreateNew(dlg.FileName);
+                    IsDatabaseAvailable = _dbManager.GetDatabase() != null;
+                    OnPropertyChanged(nameof(IsDatabaseAvailable));
                     OnPropertyChanged(nameof(Path));
                     MessageBox.Show("New database created successfully.");
                 }

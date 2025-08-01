@@ -39,6 +39,7 @@ namespace PDM.Src.ViewModels
         public ICommand OpenFilterCommand { get; }
         public ICommand ClearFilterCommand { get; }
         public ICommand DeletePhoneCommand { get; }
+        public ICommand ShowGroupMappingCommand { get; }
 
         public int CurrentPage
         {
@@ -61,6 +62,7 @@ namespace PDM.Src.ViewModels
             OpenFilterCommand = new RelayCommand(OpenFilterWindow);
             ClearFilterCommand = new RelayCommand(ClearFilters);
             DeletePhoneCommand = new RelayCommand<Phone>(DeletePhone);
+            ShowGroupMappingCommand = new RelayCommand(OpenGroupMapping);
 
             LoadPage();
         }
@@ -78,7 +80,15 @@ namespace PDM.Src.ViewModels
                 var db = App.ServiceProvider.GetRequiredService<DatabaseManager>();
                 db.DeletePhone(phone.Id);
                 Phones.Remove(phone);
+                App.ServiceProvider.GetRequiredService<DashboardViewModel>().LoadData();
             }
+        }
+
+        private void OpenGroupMapping()
+        {
+            var window = new GroupMappingWindow();
+            window.DataContext = new GroupMappingViewModel();
+            window.ShowDialog();
         }
 
         private void OpenFilterWindow()

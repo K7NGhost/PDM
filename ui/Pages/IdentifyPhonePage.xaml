@@ -62,6 +62,11 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="Countries: " FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"/>
+                    <TextBlock Text="{Binding Countries}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,5">
                     <TextBlock Text="Release Year: " FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                     <TextBlock Text="{Binding ReleaseYear}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                 </StackPanel>

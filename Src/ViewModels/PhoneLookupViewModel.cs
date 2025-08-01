@@ -87,6 +87,7 @@ namespace PDM.Src.ViewModels
                     ManufacturerId = newVm.SelectedItem.ManufacturerId,
                     Brand = newVm.SelectedItem.Brand,
                     Model = newVm.SelectedItem.Model,
+                    Countries = newVm.SelectedItem.Countries,
                     ReleaseYear = newVm.SelectedItem.ReleaseYear
                 };
 

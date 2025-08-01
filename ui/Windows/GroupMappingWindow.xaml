@@ -1,0 +1,34 @@
+﻿<Window x:Class="PDM.ui.Windows.GroupMappingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDM.ui.Windows" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:GroupMappingViewModel}"
+        mc:Ignorable="d"
+        Title="GroupMappingWindow" Height="450" Width="350" UseLayoutRounding="True">
+    <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
+        <Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Content="Get Html" Foreground="{DynamicResource TextNormalBrush}" Command="{Binding PrintCommand}" BorderBrush="{DynamicResource TextNormalBrush}" Margin="10">
+                    <Button.Effect>
+                        <DropShadowEffect/>
+                    </Button.Effect>
+                </Button>
+
+                <DataGrid Margin="10" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" Foreground="{DynamicResource TextNormalBrush}" ColumnWidth="*" ItemsSource="{Binding GroupMappings}" BorderBrush="{DynamicResource TextNormalBrush}" Background="{DynamicResource BackgroundSecondaryBrush}">
+                    <DataGrid.Effect>
+                        <DropShadowEffect/>
+                    </DataGrid.Effect>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Group ID" Binding="{Binding GroupId}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Models" Binding="{Binding Models}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

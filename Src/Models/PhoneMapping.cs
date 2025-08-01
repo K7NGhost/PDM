@@ -12,6 +12,7 @@ namespace PDM.Src.Models
         public string Brand { get; set; }
         public string Model { get; set; }
         public int ReleaseYear { get; set; }
+        public string Countries { get; set; }
         public byte[]? ImageData { get; set; }
     }
 }
