@@ -13,5 +13,6 @@ namespace PDM.Src.Enums
         AFU,
         RestoreMode,
         NotWorking,
+        Unlocked,
     }
 }

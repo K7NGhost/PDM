@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDM", "PDM.csproj", "{1A93778D-D533-41E9-A6F1-D16835037B99}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PDMSetup", "..\PDMSetup\PDMSetup.vdproj", "{2DB23578-017F-7544-3066-74B2ECABF9F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{1A93778D-D533-41E9-A6F1-D16835037B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A93778D-D533-41E9-A6F1-D16835037B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A93778D-D533-41E9-A6F1-D16835037B99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DB23578-017F-7544-3066-74B2ECABF9F2}.Debug|Any CPU.ActiveCfg = Debug
+		{2DB23578-017F-7544-3066-74B2ECABF9F2}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

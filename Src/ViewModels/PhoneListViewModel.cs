@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using LiteDB;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PDM.Src.Enums;
@@ -13,15 +15,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Diagnostics;
+using System.Windows.Data;
 
 namespace PDM.Src.ViewModels
 {
-    class PhoneListViewModel : INotifyPropertyChanged
+    internal partial class PhoneListViewModel : ObservableObject
     {
         private readonly ILogger<PhoneListViewModel> _logger;
         private readonly DatabaseManager _dbManager;
-        private int _currentPage = 1;
-        private const int PageSize = 200;
+
+        [ObservableProperty]
+        private int currentPage = 1;
+
+        [ObservableProperty]
+        private int totalPages = 1;
+
+        private const int PageSize = 300;
+        private Stack<int> _prevPageAnchors = new();
 
         // Filters (nullable means "no filter")
         public string? SelectedBrandFilter { get; set; }
@@ -33,38 +44,42 @@ namespace PDM.Src.ViewModels
         public PasscodeType? SelectedPasscodeTypeFilter { get; set; }
 
         public ObservableCollection<Phone> Phones { get; } = new();
-        public ICommand NextPageCommand { get; }
-        public ICommand PreviousPageCommand { get; }
         public ICommand EditPhoneCommand { get; }
         public ICommand OpenFilterCommand { get; }
         public ICommand ClearFilterCommand { get; }
         public ICommand DeletePhoneCommand { get; }
         public ICommand ShowGroupMappingCommand { get; }
 
-        public int CurrentPage
+        [ObservableProperty]
+        private int totalItems;
+
+        public ObservableCollection<string> SortColumns { get; } = new()
         {
-            get => _currentPage;
-            private set
-            {
-                _currentPage = value;
-                OnPropertyChanged(nameof(CurrentPage));
-            }
-        }
+            nameof(Phone.Id), nameof(Phone.GroupId), nameof(Phone.Brand), nameof(Phone.Model), nameof(Phone.OS), nameof(Phone.Status), nameof(Phone.PasscodeType), nameof(Phone.Condition)
+        };
+        public ObservableCollection<string> SortDirection { get; } = new()
+        {
+            "Ascending", "Descending"
+        };
+
+        [ObservableProperty]
+        private string selectedSortColumn = nameof(Phone.Id);
+
+        [ObservableProperty]
+        private string selectedSortDirection = "Ascending";
 
         public PhoneListViewModel()
         {
             _logger = App.ServiceProvider.GetRequiredService<ILogger<PhoneListViewModel>>();
             _dbManager = App.ServiceProvider.GetRequiredService<DatabaseManager>();
-
-            NextPageCommand = new RelayCommand(NextPage, CanNextPage);
-            PreviousPageCommand = new RelayCommand(PreviousPage, () => _currentPage > 1);
             EditPhoneCommand = new RelayCommand<Phone>(OpenEditWindow);
             OpenFilterCommand = new RelayCommand(OpenFilterWindow);
             ClearFilterCommand = new RelayCommand(ClearFilters);
             DeletePhoneCommand = new RelayCommand<Phone>(DeletePhone);
             ShowGroupMappingCommand = new RelayCommand(OpenGroupMapping);
 
-            LoadPage();
+            //LoadPage();
+            LoadPageByAnchor(null);
         }
 
         private void DeletePhone(Phone phone)
@@ -98,7 +113,7 @@ namespace PDM.Src.ViewModels
 
             if (filterWindow.ShowDialog() == true)
             {
-                SelectedBrandFilter = vm.SelectedPhone.Brand;
+                SelectedBrandFilter = vm.SelectedBrand;
                 SelectedModelFilter = vm.SelectedPhone.Model;
                 SelectedOSFilter = vm.SelectedPhone.OS;
                 SelectedConditionFilter = vm.SelectedPhone.Condition;
@@ -164,17 +179,21 @@ namespace PDM.Src.ViewModels
 
         private void LoadPage()
         {
+            var sw = Stopwatch.StartNew();
             if (!_dbManager.IsOpen)
             {
                 MessageBox.Show("Database not open");
                 return;
             }
+            var col = _dbManager.GetDatabase().GetCollection<Phone>("phones");
+
+            var highestId = col.Query().OrderByDescending(x => x.Id).Limit(1).FirstOrDefault()?.Id ?? 0;
+            TotalPages = (int)Math.Ceiling(highestId / (double) PageSize);
 
             Phones.Clear();
-            var col = _dbManager.GetDatabase().GetCollection<Phone>("phones");
             var pageItems = col.Query()
                                .OrderBy(x => x.Id)
-                               .Skip((_currentPage - 1) * PageSize)
+                               .Skip((CurrentPage - 1) * PageSize)
                                .Limit(PageSize)
                                .ToList();
 
@@ -182,36 +201,125 @@ namespace PDM.Src.ViewModels
                 Phones.Add(phone);
 
             OnPropertyChanged(nameof(Phones));
+            sw.Stop();
+            _logger.LogInformation($"LoadPage took {sw.ElapsedMilliseconds} ms");
         }
 
+        private void LoadPageByAnchor(int? afterId = null)
+        {
+            var sw = Stopwatch.StartNew();
+
+            if (!_dbManager.IsOpen)
+            {
+                MessageBox.Show("Database not open");
+                return;
+            }
+
+            var col = _dbManager.GetDatabase().GetCollection<Phone>("phones");
+
+            // Make sure we have an index for whatever we're sorting on
+            if (SelectedSortColumn == nameof(Phone.Id))
+                col.EnsureIndex(x => x.Id);
+            else
+                col.EnsureIndex(SelectedSortColumn);   // dynamic field index
+
+            // Count once per load (better: cache and refresh when data changes)
+            TotalPages = (int)Math.Ceiling(col.Count() / (double)PageSize);
+
+            var query = col.Query();
+
+            // Keyset pagination ONLY works correctly when sorting by Id.
+            if (SelectedSortColumn == nameof(Phone.Id))
+            {
+                if (afterId is int anchor)
+                {
+                    _logger.LogInformation("afterId anchor = {Anchor}", anchor);
+                    query = SelectedSortDirection == "Ascending"
+                        ? query.Where(x => x.Id > anchor)
+                        : query.Where(x => x.Id < anchor);
+                }
+
+                query = SelectedSortDirection == "Ascending"
+                    ? query.OrderBy(x => x.Id)
+                    : query.OrderByDescending(x => x.Id);
+            }
+            else
+            {
+                // When sorting by a non-Id column we can't use an Id anchor safely.
+                // Fall back to plain ordered first page. (Option: implement a per-column anchor.)
+                if (afterId != null)
+                    _logger.LogWarning("Ignoring afterId because sorting by {Col}. Implement per-column anchors to keyset paginate.", SelectedSortColumn);
+
+                query = SelectedSortDirection == "Ascending"
+                    ? query.OrderBy(SelectedSortColumn)
+                    : query.OrderByDescending(SelectedSortColumn);
+            }
+
+            var pageItems = query
+                .Limit(PageSize)
+                .ToList();
+
+            _logger.LogInformation("Fetched {Count} rows for page", pageItems.Count);
+
+            Phones.Clear();
+            foreach (var p in pageItems)
+                Phones.Add(p);
+
+            if (Phones.Count > 0)
+            {
+                // Anchor for "Next": last Id when ascending, first Id when descending
+                var anchorToPush = SelectedSortDirection == "Ascending"
+                    ? Phones[^1].Id
+                    : Phones[0].Id;
+
+                _prevPageAnchors.Push(anchorToPush);
+            }
+            else
+            {
+                _logger.LogWarning("No rows returned for this page.");
+            }
+
+            OnPropertyChanged(nameof(Phones));
+            TotalItems = Phones.Count;
+            _logger.LogInformation($"TotalItems is now {TotalItems} items");
+            sw.Stop();
+            _logger.LogInformation("LoadPageByAnchor took {ElapsedMs} ms", sw.ElapsedMilliseconds);
+        }
+
+        [RelayCommand]
         private void NextPage()
         {
-            _currentPage++;
-            LoadPage();
+            CurrentPage++;
+            _logger.LogInformation($"CurrentPage is now {CurrentPage}");
+            var afterId = Phones.Last().Id;
+            _logger.LogInformation($"AfterId is {afterId}");
+            LoadPageByAnchor(afterId);
             CommandManager.InvalidateRequerySuggested();
         }
 
+        [RelayCommand]
         private void PreviousPage()
         {
-            if (_currentPage > 1)
+            if (CurrentPage > 1)
             {
-                _currentPage--;
-                LoadPage();
+                CurrentPage--;
+                _logger.LogInformation($"CurrentPage is now {CurrentPage}");
+                LoadPageByAnchor(_prevPageAnchors.Pop());
                 CommandManager.InvalidateRequerySuggested();
             }
         }
 
         public void ReloadPhones()
         {
-            _currentPage = 1;
-            LoadPage();
+            CurrentPage = 1;
+            LoadPageByAnchor(null);
         }
 
         private bool CanNextPage()
         {
             var col = _dbManager.GetDatabase().GetCollection<Phone>("phones");
             var total = col.Count();
-            return _currentPage * PageSize < total;
+            return CurrentPage * PageSize < total;
         }
 
         public void ApplyFilters()
@@ -255,8 +363,19 @@ namespace PDM.Src.ViewModels
 
             foreach (var phone in filtered)
                 Phones.Add(phone);
-
+            TotalItems = Phones.Count;
             OnPropertyChanged(nameof(Phones));
+        }
+
+        public void ApplyInMemorySort()
+        {
+            var view = CollectionViewSource.GetDefaultView(Phones);
+            if (view == null) return;
+
+            view.SortDescriptions.Clear();
+            var direction = SelectedSortDirection == "Ascending" ? ListSortDirection.Ascending : ListSortDirection.Descending;
+            view.SortDescriptions.Add(new SortDescription(SelectedSortColumn, direction));
+            view.Refresh();
         }
 
         public void ClearFilters()
@@ -270,6 +389,17 @@ namespace PDM.Src.ViewModels
             SelectedPasscodeTypeFilter = null;
 
             ReloadPhones();
+        }
+
+        partial void OnSelectedSortColumnChanged(string value)
+        {
+            ApplyInMemorySort();
+        }
+
+        // Called when SelectedSortDirection changes
+        partial void OnSelectedSortDirectionChanged(string value)
+        {
+            ApplyInMemorySort();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

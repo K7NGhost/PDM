@@ -87,5 +87,11 @@ namespace PDM
             var settingsPage = App.ServiceProvider.GetRequiredService<SettingsPage>();
             MainFrame.Navigate(settingsPage);
         }
+
+        private void NavToAboutPage_Click(object sender, RoutedEventArgs e)
+        {
+            var aboutPage = new AboutPage();
+            MainFrame.Navigate(aboutPage);
+        }
     }
 }

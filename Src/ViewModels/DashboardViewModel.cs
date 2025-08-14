@@ -1,4 +1,5 @@
-﻿using LiteDB;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LiteDB;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Extensions;
@@ -18,51 +19,41 @@ using System.Threading.Tasks;
 
 namespace PDM.Src.ViewModels
 {
-    internal class DashboardViewModel : INotifyPropertyChanged
+    internal partial class DashboardViewModel : ObservableObject
     {
         private readonly ILogger<DashboardViewModel> _logger;
         private readonly DatabaseManager _dbManager;
 
-        private ObservableCollection<ISeries<int>> _brandSeries;
-        public ObservableCollection<ISeries<int>> BrandSeries
-        {
-            get => _brandSeries;
-            set { _brandSeries = value; OnPropertyChanged(nameof(BrandSeries)); }
-        }
+        [ObservableProperty]
+        private ObservableCollection<ISeries<int>> brandSeries;
 
-        private ObservableCollection<ISeries> _statusesSeries;
-        public ObservableCollection<ISeries> StatusesSeries
-        {
-            get => _statusesSeries;
-            set { _statusesSeries = value; OnPropertyChanged(nameof(StatusesSeries)); }
-        }
+        [ObservableProperty]
+        private ObservableCollection<ISeries> statusesSeries;
 
-        private Axis[] _statusesXAxis;
-        public Axis[] StatusesXAxis
-        {
-            get => _statusesXAxis;
-            set { _statusesXAxis = value; OnPropertyChanged(nameof(StatusesXAxis)); }
-        }
-        private int _totalPhones;
-        public int TotalPhones
-        {
-            get => _totalPhones;
-            set { _totalPhones = value; OnPropertyChanged(nameof(TotalPhones)); }
-        }
 
-        private int _uniqueModels;
-        public int UniqueModels
-        {
-            get => _uniqueModels;
-            set { _uniqueModels = value; OnPropertyChanged(nameof(UniqueModels)); }
-        }
+        [ObservableProperty]
+        private Axis[] statusesXAxis;
 
-        private int _phonesNotAnalyzed;
-        public int PhonesNotAnalyzed
-        {
-            get => _phonesNotAnalyzed;
-            set { _phonesNotAnalyzed = value; OnPropertyChanged(nameof(PhonesNotAnalyzed)); }
-        }
+        [ObservableProperty]
+        private int totalPhones;
+
+        [ObservableProperty]
+        private int uniqueModels;
+
+        [ObservableProperty]
+        private int phonesNotAnalyzed;
+
+        [ObservableProperty]
+        private int phonesUnlocked;
+
+        [ObservableProperty]
+        private int phonesWithSixDPass;
+
+        [ObservableProperty]
+        private int phonesWithFourDPass;
+
+        [ObservableProperty]
+        private int phonesWithFFSExt;
 
         public IEnumerable<ISeries> Series2 { get; set; } =
         new[]
@@ -128,6 +119,10 @@ namespace PDM.Src.ViewModels
                 UniqueModels = phones.Select(p => p.Model).Distinct().Count();
                 PhonesNotAnalyzed = phones.Count(p => p.Status == PhoneStatus.NotAnalyzed);
 
+                PhonesUnlocked = phones.Count(p => p.PhoneState ==  PhoneState.Unlocked);
+                PhonesWithSixDPass = phones.Count(p => p.PasscodeLength == 6);
+                PhonesWithFourDPass = phones.Count(p => p.PasscodeLength == 4);
+                PhonesWithFFSExt = phones.Count(p => p.Status == PhoneStatus.FullFileSystem);
             }
             
         }

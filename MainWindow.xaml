@@ -39,6 +39,7 @@
                         <Button Content="Settings" HorizontalAlignment="Stretch" Margin="5" Foreground="{DynamicResource TextNormalBrush}" Click="NavToSettingsPage_Click"></Button>
                         <Button Content="Import/Export" HorizontalAlignment="Stretch" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
                         <Button Content="Admin Only" HorizontalAlignment="Stretch" Margin="5" Click="NavToAdminPage_Click" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
+                        <Button Content="About" HorizontalAlignment="Stretch" Margin="5" Click="NavToAboutPage_Click" Foreground="{DynamicResource TextNormalBrush}"></Button>
                     </StackPanel>
                 </Border>
 

@@ -69,20 +69,36 @@
                 <Border.Effect>
                     <DropShadowEffect/>
                 </Border.Effect>
-                <StackPanel Margin="10">
-                    <StackPanel>
+                <WrapPanel Margin="10" Orientation="Vertical">
+                    <StackPanel Margin="5">
                         <TextBlock Text="Total Phones" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                         <TextBlock Text="{Binding TotalPhones}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                     </StackPanel>
-                    <StackPanel>
+                    <StackPanel Margin="5">
                         <TextBlock Text="Unique Models" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"/>
                         <TextBlock Text="{Binding UniqueModels}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                     </StackPanel>
-                    <StackPanel>
+                    <StackPanel Margin="5">
                         <TextBlock Text="Not Analyzed" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                         <TextBlock Text="{Binding PhonesNotAnalyzed}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                     </StackPanel>
-                </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Phones Unlocked" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <TextBlock Text="{Binding PhonesUnlocked}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Phones with a 6 digit PIN" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <TextBlock Text="{Binding PhonesWithSixDPass}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Phones with a 4 digit PIN" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <TextBlock Text="{Binding PhonesWithFourDPass}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Phones with FFS Extraction" FontSize="14" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <TextBlock Text="{Binding PhonesWithFFSExt}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    </StackPanel>
+                </WrapPanel>
             </Border>
         </Grid>
     </Grid>

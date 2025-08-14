@@ -1,0 +1,26 @@
+﻿<Page x:Class="PDM.ui.Pages.AboutPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDM.ui.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AboutPage">
+
+    <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
+        <Border Background="{DynamicResource BackgroundSecondaryBrush}" BorderBrush="{DynamicResource TextNormalBrush}" CornerRadius="10" Margin="10" Padding="20" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="About" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" Foreground="{DynamicResource TitlebarTextColorFocusedBrush}"></TextBlock>
+                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="This page will be used as a help guide in understanding how to use this program" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="First things you should is either load an already made Database or create a new one" HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="Once the database is loaded the navigation buttons are enabled in which case you can now begin adding Phones to the database" HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="In the add phone section it will tell you what to label the phone in the top left. It will say the phone's Id and GroupId. Write it on a sticky note or something and slap it on the back of the phone." HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="More often than not there will a new model of phone coming in. You can add the new model from the admin panel which you access with the password 'password123'. I made this as to discourage unlimited additions to the database. If working with a group of people there should be a decision on the naming convention of models" HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}" VerticalAlignment="Center"></TextBlock>
+                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="Once you have access to the admin page you are able to add brands, models, and OS's. Once added they should automatically be added to the dropdowns in the add phone page" HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="At this point you should feel comfortable cataloging phones" HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
