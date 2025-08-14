@@ -93,5 +93,31 @@ namespace PDM
             var aboutPage = new AboutPage();
             MainFrame.Navigate(aboutPage);
         }
+
+        private void NavList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (NavList.SelectedItem is ListBoxItem item)
+            {
+                switch(item.Tag)
+                {
+                    case "PhoneListPage":
+                        NavToPhoneListPage_Click(sender, e); break;
+                    case "DashboardPage":
+                        NavToDashboardPage_Click(sender, e); break;
+                    case "AddPhonePage":
+                        NavToAddPhonePage_Click(sender, e); break;
+                    case "IdPhonePage":
+                        NavToIdPhonePage_Click(sender, e); break;
+                    case "SettingsPage":
+                        NavToSettingsPage_Click(sender, e); break;
+                    case "AdminPage":
+                        NavToAdminPage_Click(sender, e); break;
+                    case "AboutPage":
+                        NavToAboutPage_Click(sender, e); break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }

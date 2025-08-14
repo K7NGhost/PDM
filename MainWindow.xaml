@@ -30,18 +30,25 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="0,0,1,0" Background="{DynamicResource BackgroundSecondaryBrush}">
-                    <StackPanel Orientation="Vertical">
-                        <Button Content="Dashboard" HorizontalAlignment="Stretch" Click="NavToDashboardPage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                        <Button Content="Phone List" HorizontalAlignment="Stretch" Click="NavToPhoneListPage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
-                        <Button Content="Add Phone" HorizontalAlignment="Stretch" Click="NavToAddPhonePage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
-                        <Button Content="Identify Phone" HorizontalAlignment="Stretch" Click="NavToIdPhonePage_Click" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
-                        <Button Content="Settings" HorizontalAlignment="Stretch" Margin="5" Foreground="{DynamicResource TextNormalBrush}" Click="NavToSettingsPage_Click"></Button>
-                        <Button Content="Import/Export" HorizontalAlignment="Stretch" Margin="5" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
-                        <Button Content="Admin Only" HorizontalAlignment="Stretch" Margin="5" Click="NavToAdminPage_Click" Foreground="{DynamicResource TextNormalBrush}" IsEnabled="{Binding IsDatabaseAvailable}"></Button>
-                        <Button Content="About" HorizontalAlignment="Stretch" Margin="5" Click="NavToAboutPage_Click" Foreground="{DynamicResource TextNormalBrush}"></Button>
-                    </StackPanel>
-                </Border>
+                <ListBox x:Name="NavList" SelectionChanged="NavList_SelectionChanged" Background="{DynamicResource BackgroundSecondaryBrush}">
+                    <ListBox.Resources>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.4"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.Resources>
+                    <ListBoxItem Content="Dashboard" Tag="DashboardPage" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
+                    <ListBoxItem Content="Phone List" IsEnabled="{Binding IsDatabaseAvailable}" Tag="PhoneListPage" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
+                    <ListBoxItem Content="Add Phone" Tag="AddPhonePage" IsEnabled="{Binding IsDatabaseAvailable}" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
+                    <ListBoxItem Content="Identify Phone" Tag="IdPhonePage" IsEnabled="{Binding IsDatabaseAvailable}" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
+                    <ListBoxItem Content="Settings" Tag="SettingsPage" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
+                    <ListBoxItem Content="Admin Page" Tag="AdminPage" IsEnabled="{Binding IsDatabaseAvailable}" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
+                    <ListBoxItem Content="About" Tag="AboutPage" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
+                </ListBox>
+               
 
                 <Frame Grid.Column="1" x:Name="MainFrame"></Frame>
                 
