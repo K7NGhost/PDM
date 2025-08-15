@@ -14,7 +14,7 @@ namespace PDM.Src.Enums
         Battery = 2,
         Backing = 3,
         Internal = 4,
-        Port = 5,
+        ChargingPort = 5,
         Miscellaneous = 6,
         Screws = 7,
         Logicboard = 8,

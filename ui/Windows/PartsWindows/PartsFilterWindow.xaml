@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDM.ui.Windows" xmlns:partsvm="clr-namespace:PDM.Src.ViewModels.PartsVM" d:DataContext="{d:DesignInstance Type=partsvm:AddPartsViewModel}"
         mc:Ignorable="d"
-        Title="PartsFilterWindow" Height="330" Width="500">
+        Title="PartsFilterWindow" Height="330" Width="550">
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
         <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" Padding="20" CornerRadius="20" Margin="10" Background="{DynamicResource BackgroundSecondaryBrush}">
             <StackPanel Margin="5" UseLayoutRounding="True">
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Brand:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                     <ComboBox Grid.Column="1" ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedBrand}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
@@ -24,7 +24,7 @@
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Model:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
 
@@ -37,7 +37,7 @@
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition Width="5*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Part Type:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                     <ComboBox ItemsSource="{Binding PartTypes}" SelectedItem="{Binding SelectedPartType}" Grid.Column="1" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">

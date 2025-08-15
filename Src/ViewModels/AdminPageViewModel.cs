@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using PDM.Src.Models;
+using PDM.Src.ViewModels.PartsVM;
+using PDM.ui.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -57,6 +59,7 @@ namespace PDM.Src.ViewModels
         {
             var db = App.ServiceProvider.GetRequiredService<DatabaseManager>().GetDatabase();
             var addPhoneVm = App.ServiceProvider.GetRequiredService<PhoneDataViewModel>();
+            var addPartVm = App.ServiceProvider.GetRequiredService<AddPartsViewModel>();
 
             // Save brand if not duplicate
             if (!string.IsNullOrWhiteSpace(BrandInput))
@@ -95,6 +98,8 @@ namespace PDM.Src.ViewModels
                 }
             }
             addPhoneVm.RefreshData();
+            addPartVm.RefreshData();
+
             MessageBox.Show("Entries saved (no duplicates added).");
         }
     }
