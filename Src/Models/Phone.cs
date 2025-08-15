@@ -23,7 +23,8 @@ namespace PDM.Src.Models
         public string Model { get; set; }
         public string IMEI { get; set; }
         public PhoneStatus Status { get; set; }
-        public byte[]? ImageData { get; set; }
+        public byte[]? ImageDataF { get; set; }
+        public byte[]? ImageDataB { get; set; }
 
         // Specs
 
@@ -41,14 +42,14 @@ namespace PDM.Src.Models
 
 
         [LiteDB.BsonIgnore] // Prevents LiteDB from trying to store it
-        public ImageSource? ImagePreview
+        public ImageSource? ImagePreviewFront
         {
             get
             {
-                if (ImageData == null || ImageData.Length == 0)
+                if (ImageDataF == null || ImageDataF.Length == 0)
                     return null;
 
-                using var ms = new MemoryStream(ImageData);
+                using var ms = new MemoryStream(ImageDataF);
                 var image = new BitmapImage();
                 image.BeginInit();
                 image.CacheOption = BitmapCacheOption.OnLoad;
@@ -59,5 +60,22 @@ namespace PDM.Src.Models
             }
         }
 
+        [LiteDB.BsonIgnore]
+        public ImageSource? ImagePreviewBack
+        {
+            get
+            {
+                if (ImageDataB == null || ImageDataB.Length == 0)
+                    return null;
+                using var ms = new MemoryStream(ImageDataB);
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = ms;
+                image.EndInit();
+                image.Freeze();
+                return image;
+            }
+        }
     }
 }

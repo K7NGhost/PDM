@@ -44,6 +44,8 @@
                     <ListBoxItem Content="Phone List" IsEnabled="{Binding IsDatabaseAvailable}" Tag="PhoneListPage" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
                     <ListBoxItem Content="Add Phone" Tag="AddPhonePage" IsEnabled="{Binding IsDatabaseAvailable}" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
                     <ListBoxItem Content="Identify Phone" Tag="IdPhonePage" IsEnabled="{Binding IsDatabaseAvailable}" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
+                    <ListBoxItem Content="Parts List" IsEnabled="{Binding IsDatabaseAvailable}" Tag="PartsListPage" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
+                    <ListBoxItem Content="Add Part" Tag="AddPartsPage" IsEnabled="{Binding IsDatabaseAvailable}" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
                     <ListBoxItem Content="Settings" Tag="SettingsPage" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
                     <ListBoxItem Content="Admin Page" Tag="AdminPage" IsEnabled="{Binding IsDatabaseAvailable}" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>
                     <ListBoxItem Content="About" Tag="AboutPage" Foreground="{DynamicResource TextNormalBrush}"></ListBoxItem>

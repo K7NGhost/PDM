@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Data;
 using System.Windows;
 using Microsoft.Extensions.Logging;
+using PDM.Src.ViewModels.PartsVM;
 
 namespace PDM
 {
@@ -38,11 +39,12 @@ namespace PDM
             services.AddSingleton<DatabaseManagerViewModel>();
             services.AddSingleton<PhoneListViewModel>();
             services.AddSingleton<PhoneDataViewModel>();
-            services.AddSingleton<PopupEditViewModel>();
             services.AddSingleton<PhoneLookupViewModel>();
             services.AddSingleton<AdminPageViewModel>();
             services.AddSingleton<DashboardViewModel>();
             services.AddSingleton<SettingsViewModel>();
+            services.AddSingleton<AddPartsViewModel>();
+            services.AddSingleton<PartsListViewModel>();
 
             // Views
             services.AddTransient<AddPhonePage>();
@@ -51,6 +53,8 @@ namespace PDM
             services.AddSingleton<MainWindow>();
             services.AddSingleton<DashboardPage>();
             services.AddTransient<SettingsPage>();
+            services.AddSingleton<PartsViewPage>();
+            services.AddTransient<AddPartPage>();
         }
     }
 

@@ -37,7 +37,8 @@ namespace PDM.Src.ViewModels
         public ObservableCollection<string> FilteredOses { get; } = new();
         private DatabaseManager _dbManager = App.ServiceProvider.GetRequiredService<DatabaseManager>();
         public int GroupNumber => GetOrCreateGroupNumber(SelectedModel);
-     
+        public Action? CloseWindowAction { get; set; }
+
         public Dictionary<string, List<string>> BrandModelMap { get; private set; }
 
         private Phone _selectedPhone = new();
@@ -104,16 +105,36 @@ namespace PDM.Src.ViewModels
             }
         }
 
-        public ImageSource? PhoneImage
+        public ImageSource? PhoneImageB
         {
             get
             {
-                if (SelectedPhone?.ImageData == null)
+                if (SelectedPhone?.ImageDataB == null)
                 {
                     return null;
                 }
 
-                using var stream = new MemoryStream(SelectedPhone.ImageData);
+                using var stream = new MemoryStream(SelectedPhone.ImageDataB);
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+                bitmap.Freeze();
+                return bitmap;
+            }
+        }
+
+        public ImageSource? PhoneImageF
+        {
+            get
+            {
+                if (SelectedPhone?.ImageDataF == null)
+                {
+                    return null;
+                }
+
+                using var stream = new MemoryStream(SelectedPhone.ImageDataF);
                 var bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
@@ -126,7 +147,6 @@ namespace PDM.Src.ViewModels
 
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
-        public ICommand UploadImageCommand { get; }
 
         public PhoneDataViewModel()
         {
@@ -155,7 +175,6 @@ namespace PDM.Src.ViewModels
 
                 SaveCommand = new RelayCommand(Save, CanSave);
                 CancelCommand = new RelayCommand(Cancel);
-                UploadImageCommand = new RelayCommand(UploadImage);
             }
             
         }
@@ -174,6 +193,7 @@ namespace PDM.Src.ViewModels
                     _dbManager.UpdatePhone(SelectedPhone);
                     App.ServiceProvider.GetRequiredService<DashboardViewModel>().LoadData();
                     MessageBox.Show("Phone Updated Successfully!");
+                    CloseWindowAction?.Invoke();
                 }
                 else
                 {
@@ -209,7 +229,8 @@ namespace PDM.Src.ViewModels
             RefreshData();
             SelectedPhone = new Phone();
             OnPropertyChanged(nameof(SelectedPhone));
-            OnPropertyChanged(nameof(PhoneImage));
+            OnPropertyChanged(nameof(PhoneImageB));
+            OnPropertyChanged(nameof(PhoneImageF));
         }
 
         private void UpdateModels()
@@ -241,7 +262,7 @@ namespace PDM.Src.ViewModels
             }
         }
 
-        private void UploadImage()
+        public void UploadImage(Action<byte[]> setImageAction)
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog()
             {
@@ -250,8 +271,25 @@ namespace PDM.Src.ViewModels
 
             if (openFileDialog.ShowDialog() == true)
             {
-                SelectedPhone.ImageData = File.ReadAllBytes(openFileDialog.FileName);
-                OnPropertyChanged(nameof(PhoneImage));
+                byte[] imageData = File.ReadAllBytes(openFileDialog.FileName);
+                setImageAction(imageData);
+                OnPropertyChanged(nameof(PhoneImageB));
+                OnPropertyChanged(nameof(PhoneImageF));
+            }
+        }
+
+        public void RemoveImage(string target)
+        {
+            if (SelectedPhone == null) return;
+            if (target == "B")
+            {
+                SelectedPhone.ImageDataB = null;
+                OnPropertyChanged(nameof(PhoneImageB));
+            }
+            if (target == "F")
+            {
+                SelectedPhone.ImageDataF = null;
+                OnPropertyChanged(nameof(PhoneImageF));
             }
         }
 

@@ -68,6 +68,21 @@ namespace PDM.Src.Models
             else throw new InvalidOperationException("The database is null");
         }
 
+        public void SavePart(Part part)
+        {
+            if (_db != null)
+            {
+                var collection = _db.GetCollection<Part>("parts");
+                if (part.Id == 0)
+                {
+                    var last = collection.Query().OrderByDescending(p => p.Id).FirstOrDefault();
+                    part.Id = last != null ? last.Id + 1 : 0;
+                }
+                collection.Insert(part);
+            }
+            else throw new InvalidOperationException("The database is null");
+        }
+
         public void UpdatePhone(Phone phone)
         {
             if (_db != null)
@@ -76,7 +91,16 @@ namespace PDM.Src.Models
                 col.Update(phone);
             }
             else throw new InvalidOperationException("The Database is Null");
-            
+        }
+
+        public void UpdatePart(Part part)
+        {
+            if (_db != null)
+            {
+                var col = _db.GetCollection<Part>("parts");
+                col.Update(part);
+            }
+            else throw new InvalidOperationException("The database is Null");
         }
 
         public int GetNextPhoneId()
@@ -92,6 +116,20 @@ namespace PDM.Src.Models
                 return -1;
             }
 
+        }
+
+        public int GetNextPartId()
+        {
+            if (_db != null)
+            {
+                var col = _db.GetCollection<Part>("parts");
+                var lastPart = col.Query().OrderByDescending(x => x.Id).FirstOrDefault();
+                return lastPart != null ? lastPart.Id + 1 : 0;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         private void SeedDatabase(LiteDatabase db)
@@ -144,6 +182,13 @@ namespace PDM.Src.Models
             var db = GetDatabase();
             var col = db.GetCollection<Phone>("phones");
             col.Delete(phoneId);
+        }
+
+        public void DeletePart(int partId)
+        {
+            var db = GetDatabase();
+            var col = db.GetCollection<Part>("parts");
+            col.Delete(partId);
         }
 
         /// <summary>

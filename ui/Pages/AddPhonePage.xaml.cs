@@ -27,5 +27,29 @@ namespace PDM.ui.Pages
             InitializeComponent();
             DataContext = App.ServiceProvider.GetRequiredService<PhoneDataViewModel>();
         }
+
+        private void UploadImageB_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is PhoneDataViewModel vm)
+            {
+                vm.UploadImage(data => vm.SelectedPhone.ImageDataB = data);
+            }
+        }
+
+        private void UploadImageF_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is PhoneDataViewModel vm)
+            {
+                vm.UploadImage(data => vm.SelectedPhone.ImageDataF = data);
+            }
+        }
+
+        private void RemoveImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is PhoneDataViewModel vm && sender is Button btn && btn.Tag is string tag)
+            {
+                vm.RemoveImage(tag);
+            }
+        }
     }
 }

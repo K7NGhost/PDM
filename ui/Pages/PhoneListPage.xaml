@@ -29,7 +29,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-
+                
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10">
                     <Button Content="Filter By" Command="{Binding OpenFilterCommand}" Foreground="{DynamicResource TextNormalBrush}" Width="150" BorderBrush="{DynamicResource TextNormalBrush}" Margin="0,0,20,0">
                         <Button.Effect>
@@ -82,6 +82,16 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Image" Width="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Image Source="{Binding ImagePreviewBack}" Stretch="Fill" MaxWidth="250" MaxHeight="100"></Image>
+                                <Image Source="{Binding ImagePreviewFront}" Stretch="Fill" MaxWidth="250" MaxHeight="100"></Image>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Group Id" Binding="{Binding GroupId}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Brand" Binding="{Binding Brand}" ElementStyle="{StaticResource DataGridWrappedTextBlockStyle}"></DataGridTextColumn>

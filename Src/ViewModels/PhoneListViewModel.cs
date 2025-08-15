@@ -143,7 +143,8 @@ namespace PDM.Src.ViewModels
         phone.PasscodeType,
         phone.PasscodeLength,
         string.IsNullOrEmpty(phone.Notes) ? 0 : phone.Notes.Length,
-        phone.ImageData == null ? 0 : phone.ImageData.Length);
+        phone.ImageDataB == null ? 0 : phone.ImageDataB.Length,
+        phone.ImageDataF == null ? 0 : phone.ImageDataF.Length);
             var vm = new PhoneDataViewModel
             {
                 IsEditMode = true,
@@ -162,7 +163,8 @@ namespace PDM.Src.ViewModels
                     PasscodeType = phone.PasscodeType,
                     PasscodeLength = phone.PasscodeLength,
                     Notes = phone.Notes,
-                    ImageData = phone.ImageData,
+                    ImageDataB = phone.ImageDataB,
+                    ImageDataF = phone.ImageDataF,
                     Status = phone.Status
                 }
             };
@@ -174,6 +176,7 @@ namespace PDM.Src.ViewModels
 
 
             var window = new EditPhoneWindow { DataContext = vm };
+            vm.CloseWindowAction = () => window.Close();
             window.Show();
         }
 

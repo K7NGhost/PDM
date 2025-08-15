@@ -1,0 +1,116 @@
+﻿<Page x:Class="PDM.ui.Pages.AddPartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDM.ui.Pages" xmlns:partsvm="clr-namespace:PDM.Src.ViewModels.PartsVM" d:DataContext="{d:DesignInstance Type=partsvm:AddPartsViewModel}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AddPartPage" UseLayoutRounding="True">
+
+    <Grid Margin="10" Background="{DynamicResource BackgroundPrimaryAltBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" CornerRadius="10" Padding="5" Margin="10" Background="{DynamicResource BackgroundSecondaryBrush}">
+            <Border.Effect>
+                <DropShadowEffect/>
+            </Border.Effect>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Part Group ID: " Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBlock Text="{Binding GroupNumber}" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+
+                <TextBlock Text="Part ID: " Foreground="{DynamicResource TextNormalBrush}"/>
+                <TextBlock Text="{Binding NextPartId}" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Margin="10" BorderBrush="{DynamicResource TextNormalBrush}" CornerRadius="10" BorderThickness="1" Padding="10" Background="{DynamicResource BackgroundSecondaryBrush}">
+            <Border.Effect>
+                <DropShadowEffect/>
+            </Border.Effect>
+            <ScrollViewer>
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!--Brand-->
+                        <TextBlock Text="Brand:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <ComboBox ItemsSource="{Binding Brands}" SelectedItem="{Binding SelectedBrand, Mode=TwoWay}" Grid.Column="1" Margin="5" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"></ComboBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!--Model-->
+                        <TextBlock Text="Model:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <ComboBox ItemsSource="{Binding FilteredModels}" SelectedItem="{Binding SelectedPart.Model}" Grid.Column="1" Margin="5" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"></ComboBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!--Part Type-->
+                        <TextBlock Text="Part Type:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <ComboBox ItemsSource="{Binding PartTypes}" SelectedItem="{Binding SelectedPartType, Mode=TwoWay}" Grid.Column="1" Margin="5" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"></ComboBox>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <!-- Notes -->
+                        <TextBlock Text="Notes:" Grid.Column="0" VerticalAlignment="Top" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <TextBox Grid.Column="1" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="5" Text="{Binding SelectedPart.Notes}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Image:" Grid.Column="0" VerticalAlignment="Top" Margin="5" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Upload Image" Margin="0,0,20,0" Command="{Binding UploadImageCommand}" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                                    <Button.Effect>
+                                        <DropShadowEffect/>
+                                    </Button.Effect>
+                                </Button>
+                                <Button Content="Remove Image" BorderBrush="{DynamicResource TextNormalBrush}" Command="{Binding RemoveImageCommand}" Foreground="{DynamicResource TextNormalBrush}">
+                                    <Button.Effect>
+                                        <DropShadowEffect/>
+                                    </Button.Effect>
+                                </Button>
+                            </StackPanel>
+                            <Image Margin="10" MaxWidth="500" MaxHeight="250">
+                                <Image.Source>
+                                    <Binding Path="PartImage"></Binding>
+                                </Image.Source>
+                            </Image>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+            <Button Content="Save" Margin="0,0,10,0" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Command="{Binding SaveCommand}" Width="70">
+                <Button.Effect>
+                    <DropShadowEffect/>
+                </Button.Effect>
+            </Button>
+            <Button Content="Cancel" Margin="10,0,0,0" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Command="{Binding CancelCommand}" Width="70">
+                <Button.Effect>
+                    <DropShadowEffect/>
+                </Button.Effect>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -94,6 +94,18 @@ namespace PDM
             MainFrame.Navigate(aboutPage);
         }
 
+        private void NavToPartsViewPage_Click(object sender, RoutedEventArgs e)
+        {
+            var partsViewPage = App.ServiceProvider.GetRequiredService<PartsViewPage>();
+            MainFrame.Navigate(partsViewPage);
+        }
+
+        private void NavToAddPartPage_Click(object sender, RoutedEventArgs e)
+        {
+            var addPartPage = App.ServiceProvider.GetRequiredService<AddPartPage>();
+            MainFrame.Navigate(addPartPage);
+        }
+
         private void NavList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (NavList.SelectedItem is ListBoxItem item)
@@ -114,6 +126,10 @@ namespace PDM
                         NavToAdminPage_Click(sender, e); break;
                     case "AboutPage":
                         NavToAboutPage_Click(sender, e); break;
+                    case "PartsListPage":
+                        NavToPartsViewPage_Click(sender, e); break;
+                    case "AddPartsPage":
+                        NavToAddPartPage_Click(sender, e); break;
                     default:
                         break;
                 }
