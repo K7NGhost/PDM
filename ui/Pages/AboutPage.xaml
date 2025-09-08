@@ -19,8 +19,9 @@
                 <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="More often than not there will a new model of phone coming in. You can add the new model from the admin panel which you access with the password 'password123'. I made this as to discourage unlimited additions to the database. If working with a group of people there should be a decision on the naming convention of models" HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}" VerticalAlignment="Center"></TextBlock>
                 <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="Once you have access to the admin page you are able to add brands, models, and OS's. Once added they should automatically be added to the dropdowns in the add phone page" HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
                 <TextBlock MaxWidth="500" TextAlignment="Center" TextWrapping="Wrap" Text="At this point you should feel comfortable cataloging phones" HorizontalAlignment="Center" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
-                    
+
             </StackPanel>
+
         </Border>
     </Grid>
 </Page>

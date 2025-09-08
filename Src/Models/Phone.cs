@@ -31,8 +31,8 @@ namespace PDM.Src.Models
         public string ManufacturerId { get; set; }
         public string OS { get; set; }
         public string Version { get; set; }
-        public string Storage { get; set; }
         public string Color { get; set; }
+        public DeviceType DeviceType { get; set; }
         public PhoneCondition Condition { get; set; }
         public PhoneState PhoneState { get; set; }
         public PasscodeType PasscodeType { get; set; }

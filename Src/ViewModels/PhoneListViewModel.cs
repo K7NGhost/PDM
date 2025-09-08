@@ -38,6 +38,7 @@ namespace PDM.Src.ViewModels
         public string? SelectedBrandFilter { get; set; }
         public string? SelectedModelFilter { get; set; }
         public string? SelectedOSFilter { get; set; }
+        public DeviceType? SelectedDeviceTypeFilter { get; set; }
         public PhoneCondition? SelectedConditionFilter { get; set; }
         public PhoneState? SelectedPhoneStateFilter { get; set; }
         public PhoneStatus? SelectedPhoneStatusFilter { get; set; }
@@ -116,11 +117,11 @@ namespace PDM.Src.ViewModels
                 SelectedBrandFilter = vm.SelectedBrand;
                 SelectedModelFilter = vm.SelectedPhone.Model;
                 SelectedOSFilter = vm.SelectedPhone.OS;
+                SelectedDeviceTypeFilter = vm.SelectedPhone.DeviceType;
                 SelectedConditionFilter = vm.SelectedPhone.Condition;
                 SelectedPhoneStateFilter = vm.SelectedPhone.PhoneState;
                 SelectedPhoneStatusFilter = vm.SelectedPhone.Status;
                 SelectedPasscodeTypeFilter = vm.SelectedPhone.PasscodeType;
-
                 ApplyFilters();
                 _logger.LogInformation("Filter applied");
             }
@@ -128,23 +129,6 @@ namespace PDM.Src.ViewModels
 
         private void OpenEditWindow(Phone phone)
         {
-            _logger.LogInformation("Opening Edit Window for Phone Id={Id}, GroupId={GroupId}, Brand={Brand}, Model={Model}, OS={OS}, IMEI={IMEI}, Storage={Storage}, Color={Color}, Condition={Condition}, State={State}, Status={Status}, PasscodeType={PasscodeType}, PasscodeLength={PasscodeLength}, Notes={NotesLength} chars, ImageData={ImageDataLength} bytes",
-        phone.Id,
-        phone.GroupId,
-        phone.Brand,
-        phone.Model,
-        phone.OS,
-        phone.IMEI,
-        phone.Storage,
-        phone.Color,
-        phone.Condition,
-        phone.PhoneState,
-        phone.Status,
-        phone.PasscodeType,
-        phone.PasscodeLength,
-        string.IsNullOrEmpty(phone.Notes) ? 0 : phone.Notes.Length,
-        phone.ImageDataB == null ? 0 : phone.ImageDataB.Length,
-        phone.ImageDataF == null ? 0 : phone.ImageDataF.Length);
             var vm = new PhoneDataViewModel
             {
                 IsEditMode = true,
@@ -156,7 +140,7 @@ namespace PDM.Src.ViewModels
                     Model = phone.Model,
                     OS = phone.OS,
                     IMEI = phone.IMEI,
-                    Storage = phone.Storage,
+                    DeviceType = phone.DeviceType,
                     Color = phone.Color,
                     Condition = phone.Condition,
                     PhoneState = phone.PhoneState,
@@ -178,34 +162,6 @@ namespace PDM.Src.ViewModels
             var window = new EditPhoneWindow { DataContext = vm };
             vm.CloseWindowAction = () => window.Close();
             window.Show();
-        }
-
-        private void LoadPage()
-        {
-            var sw = Stopwatch.StartNew();
-            if (!_dbManager.IsOpen)
-            {
-                MessageBox.Show("Database not open");
-                return;
-            }
-            var col = _dbManager.GetDatabase().GetCollection<Phone>("phones");
-
-            var highestId = col.Query().OrderByDescending(x => x.Id).Limit(1).FirstOrDefault()?.Id ?? 0;
-            TotalPages = (int)Math.Ceiling(highestId / (double) PageSize);
-
-            Phones.Clear();
-            var pageItems = col.Query()
-                               .OrderBy(x => x.Id)
-                               .Skip((CurrentPage - 1) * PageSize)
-                               .Limit(PageSize)
-                               .ToList();
-
-            foreach (var phone in pageItems)
-                Phones.Add(phone);
-
-            OnPropertyChanged(nameof(Phones));
-            sw.Stop();
-            _logger.LogInformation($"LoadPage took {sw.ElapsedMilliseconds} ms");
         }
 
         private void LoadPageByAnchor(int? afterId = null)
@@ -353,6 +309,8 @@ namespace PDM.Src.ViewModels
                 query = query.Where(p => p.Model == SelectedModelFilter);
             if (!string.IsNullOrEmpty(SelectedOSFilter))
                 query = query.Where(p => p.OS == SelectedOSFilter);
+            if (SelectedDeviceTypeFilter != null)
+                query = query.Where(p => p.DeviceType == SelectedDeviceTypeFilter);
             if (SelectedConditionFilter != null && SelectedConditionFilter != PhoneCondition.None)
                 query = query.Where(p => p.Condition == SelectedConditionFilter);
             if (SelectedPhoneStateFilter != null && SelectedPhoneStateFilter != PhoneState.None)

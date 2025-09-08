@@ -18,10 +18,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PDM.Src.ViewModels
 {
-    internal class PhoneDataViewModel : INotifyPropertyChanged
+    partial class PhoneDataViewModel : INotifyPropertyChanged
     {
         private readonly ILogger<PhoneDataViewModel> _logger;
         public bool IsEditMode { get; set; }
@@ -29,10 +30,12 @@ namespace PDM.Src.ViewModels
         public ObservableCollection<PhoneModel> Models { get; }
         public ObservableCollection<string> ModelList { get; }
         public ObservableCollection<string> OSes { get; }
+        public ObservableCollection<DeviceType> DeviceTypes { get; }
         public ObservableCollection<PhoneState> PhoneStates { get; }
         public ObservableCollection<PasscodeType> PasscodeTypes { get; }
         public ObservableCollection<PhoneCondition> PhoneConditions { get; }
         public ObservableCollection<PhoneStatus> PhoneStatuses { get; }
+
         public ObservableCollection<string> FilteredModels { get; } = new();
         public ObservableCollection<string> FilteredOses { get; } = new();
         private DatabaseManager _dbManager = App.ServiceProvider.GetRequiredService<DatabaseManager>();
@@ -171,6 +174,7 @@ namespace PDM.Src.ViewModels
                 PasscodeTypes = new ObservableCollection<PasscodeType>(Enum.GetValues<PasscodeType>());
                 PhoneConditions = new ObservableCollection<PhoneCondition>(Enum.GetValues<PhoneCondition>());
                 PhoneStatuses = new ObservableCollection<PhoneStatus>(Enum.GetValues<PhoneStatus>());
+                DeviceTypes = new ObservableCollection<DeviceType>(Enum.GetValues<DeviceType>());
                 _nextPhoneId = _dbManager.GetNextPhoneId();
 
                 SaveCommand = new RelayCommand(Save, CanSave);

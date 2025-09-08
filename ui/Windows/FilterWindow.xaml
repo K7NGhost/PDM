@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDM.ui.Windows" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneDataViewModel}"
         mc:Ignorable="d"
-        Title="FilterWindow" Height="550" Width="400">
+        Title="FilterWindow" Height="600" Width="400">
 
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
         <Border BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" Padding="20" CornerRadius="20" Margin="10" Background="{DynamicResource BackgroundSecondaryBrush}">
@@ -47,6 +47,20 @@
                         </ComboBox.Effect>
                     </ComboBox>
                 </Grid>
+
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Device Type:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextNormalBrush}"></TextBlock>
+                    <ComboBox ItemsSource="{Binding DeviceTypes}" SelectedItem="{Binding SelectedPhone.DeviceType}" Grid.Column="1" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}">
+                        <ComboBox.Effect>
+                            <DropShadowEffect/>
+                        </ComboBox.Effect>
+                    </ComboBox>
+                </Grid>
+
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>

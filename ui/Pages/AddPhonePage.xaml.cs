@@ -51,5 +51,12 @@ namespace PDM.ui.Pages
                 vm.RemoveImage(tag);
             }
         }
+
+        private void ComboBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            comboBox.IsDropDownOpen = true;
+        }
+
     }
 }

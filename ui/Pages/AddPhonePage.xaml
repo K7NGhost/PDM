@@ -95,8 +95,8 @@
                             <ColumnDefinition Width="4*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <!-- Storage -->
-                        <TextBlock Text="Storage:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
-                        <TextBox Grid.Column="1" Margin="5" Text="{Binding SelectedPhone.Storage}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <TextBlock Text="Device Type:" Grid.Column="0" VerticalAlignment="Center" Margin="5" Foreground="{DynamicResource TextNormalBrush}"/>
+                        <ComboBox Grid.Column="1" Margin="5" ItemsSource="{Binding DeviceTypes}" SelectedItem="{Binding SelectedPhone.DeviceType}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
