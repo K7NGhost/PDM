@@ -59,13 +59,19 @@
                         </ComboBox.Effect>
                     </ComboBox>
 
+                    <Button Content="Select columns" Click="SelectColumns_Click" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                        <Button.Effect>
+                            <DropShadowEffect/>
+                        </Button.Effect>
+                    </Button>
+
                     
                 </StackPanel>
                 
             </Grid>
         </Border>
 
-        <DataGrid Grid.Row="1" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" ItemsSource="{Binding Phones}" HorizontalContentAlignment="Center" IsReadOnly="True" Background="{DynamicResource BackgroundSecondaryBrush}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Margin="10">
+        <DataGrid x:Name="PhoneGrid" Grid.Row="1" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" ItemsSource="{Binding Phones}" HorizontalContentAlignment="Center" IsReadOnly="True" Background="{DynamicResource BackgroundSecondaryBrush}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Margin="10" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <!-- Put the VM on the row.Tag -->

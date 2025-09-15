@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDM.ui.Windows" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneDataViewModel}"
         mc:Ignorable="d"
-        Title="EditPhoneWindow" Height="1000" Width="700" UseLayoutRounding="True">
+        Title="EditPhoneWindow" Height="500" Width="700" UseLayoutRounding="True">
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

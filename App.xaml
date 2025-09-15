@@ -1,13 +1,14 @@
 ﻿<Application x:Class="PDM.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:PDM">
+             xmlns:local="clr-namespace:PDM" xmlns:converters="clr-namespace:PDM.Src.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
                 <ResourceDictionary Source="/themes/GruvboxTheme.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <converters:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter"></converters:VisibilityToBoolConverter>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

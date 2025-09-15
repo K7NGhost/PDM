@@ -14,5 +14,6 @@ namespace PDM.Src.Enums
         RestoreMode,
         NotWorking,
         Unlocked,
+        FactoryReset,
     }
 }

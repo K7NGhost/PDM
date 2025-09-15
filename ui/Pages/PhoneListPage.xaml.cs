@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PDM.Src.ViewModels;
+using PDM.ui.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,14 @@ namespace PDM.ui
         {
             InitializeComponent();
             DataContext = App.ServiceProvider.GetRequiredService<PhoneListViewModel>();
+        }
+
+        private void SelectColumns_Click(object sender, RoutedEventArgs e)
+        {
+            var selector = new SelectVisColumnsWindow();
+            selector.Owner = Window.GetWindow(this);
+            selector.CheckList.ItemsSource = PhoneGrid.Columns;
+            selector.ShowDialog();
         }
     }
 }

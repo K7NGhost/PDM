@@ -1,0 +1,45 @@
+﻿<Window x:Class="PDM.ui.Windows.SelectVisColumnsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDM.ui.Windows"
+        mc:Ignorable="d"
+        Title="Select View Columns" Height="450" Width="300" UseLayoutRounding="True">
+    <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
+        <Border Background="{DynamicResource BackgroundSecondaryBrush}" BorderBrush="{DynamicResource TextNormalBrush}" BorderThickness="1" CornerRadius="10" Margin="10" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" CornerRadius="10" BorderThickness="1" BorderBrush="{DynamicResource TextNormalBrush}" Padding="10,0,0,0">
+                    <Border.Effect>
+                        <DropShadowEffect/>
+                    </Border.Effect>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl x:Name="CheckList">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Header}" IsChecked="{Binding Visibility, Converter={StaticResource VisibilityToBoolConverter}, Mode=TwoWay}"></CheckBox>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+                
+
+                <Button Grid.Row="1" Content="OK" Margin="5,10,5,5" Click="Ok_Click" Foreground="{DynamicResource TextNormalBrush}" BorderBrush="{DynamicResource TextNormalBrush}">
+                    <Button.Effect>
+                        <DropShadowEffect/>
+                    </Button.Effect>
+                </Button>
+            </Grid>
+            
+        </Border>
+    </Grid>
+</Window>
