@@ -277,6 +277,10 @@ namespace PDM.Src.ViewModels
             {
                 byte[] imageData = File.ReadAllBytes(openFileDialog.FileName);
                 setImageAction(imageData);
+                
+                // Clear cache when new image is set
+                SelectedPhone.ClearImageCache();
+                
                 OnPropertyChanged(nameof(PhoneImageB));
                 OnPropertyChanged(nameof(PhoneImageF));
             }
@@ -287,12 +291,12 @@ namespace PDM.Src.ViewModels
             if (SelectedPhone == null) return;
             if (target == "B")
             {
-                SelectedPhone.ImageDataB = null;
+                SelectedPhone.SetImageDataB(null);
                 OnPropertyChanged(nameof(PhoneImageB));
             }
             if (target == "F")
             {
-                SelectedPhone.ImageDataF = null;
+                SelectedPhone.SetImageDataF(null);
                 OnPropertyChanged(nameof(PhoneImageF));
             }
         }

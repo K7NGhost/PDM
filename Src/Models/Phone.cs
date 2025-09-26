@@ -39,13 +39,20 @@ namespace PDM.Src.Models
         public int PasscodeLength { get; set; }
         public string Notes { get; set; }
 
+        [LiteDB.BsonIgnore]
+        private ImageSource? _cachedImagePreviewFront;
 
+        [LiteDB.BsonIgnore]
+        private ImageSource? _cachedImagePreviewBack;
 
-        [LiteDB.BsonIgnore] // Prevents LiteDB from trying to store it
+        [LiteDB.BsonIgnore]
         public ImageSource? ImagePreviewFront
         {
             get
             {
+                if (_cachedImagePreviewFront != null)
+                    return _cachedImagePreviewFront;
+
                 if (ImageDataF == null || ImageDataF.Length == 0)
                     return null;
 
@@ -53,10 +60,14 @@ namespace PDM.Src.Models
                 var image = new BitmapImage();
                 image.BeginInit();
                 image.CacheOption = BitmapCacheOption.OnLoad;
+                image.DecodePixelWidth = 250; // Limit decode size to match display
+                image.DecodePixelHeight = 100;
                 image.StreamSource = ms;
                 image.EndInit();
-                image.Freeze(); // thread-safe
-                return image;
+                image.Freeze();
+                
+                _cachedImagePreviewFront = image;
+                return _cachedImagePreviewFront;
             }
         }
 
@@ -65,17 +76,45 @@ namespace PDM.Src.Models
         {
             get
             {
+                if (_cachedImagePreviewBack != null)
+                    return _cachedImagePreviewBack;
+
                 if (ImageDataB == null || ImageDataB.Length == 0)
                     return null;
+
                 using var ms = new MemoryStream(ImageDataB);
                 var image = new BitmapImage();
                 image.BeginInit();
                 image.CacheOption = BitmapCacheOption.OnLoad;
+                image.DecodePixelWidth = 250; // Limit decode size to match display
+                image.DecodePixelHeight = 100;
                 image.StreamSource = ms;
                 image.EndInit();
                 image.Freeze();
-                return image;
+                
+                _cachedImagePreviewBack = image;
+                return _cachedImagePreviewBack;
             }
+        }
+
+        // Add method to clear cache when image data changes
+        public void ClearImageCache()
+        {
+            _cachedImagePreviewFront = null;
+            _cachedImagePreviewBack = null;
+        }
+
+        // Add this method to clear cache when image data changes
+        public void SetImageDataF(byte[]? data)
+        {
+            ImageDataF = data;
+            ClearImageCache();
+        }
+
+        public void SetImageDataB(byte[]? data)
+        {
+            ImageDataB = data;
+            ClearImageCache();
         }
     }
 }

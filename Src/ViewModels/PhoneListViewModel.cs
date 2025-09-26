@@ -284,10 +284,11 @@ namespace PDM.Src.ViewModels
         public void ApplyFilters()
         {
             _logger.LogInformation(
-    "Filters applied: Brand={Brand}, Model={Model}, OS={OS}, Condition={Condition}, State={State}, Status={Status}, Passcode={Passcode}",
+    "Filters applied: Brand={Brand}, Model={Model}, OS={OS}, DeviceType={DeviceType}, Condition={Condition}, State={State}, Status={Status}, Passcode={Passcode}",
     SelectedBrandFilter ?? "Any",
     SelectedModelFilter ?? "Any",
     SelectedOSFilter ?? "Any",
+    SelectedDeviceTypeFilter?.ToString() ?? "Any",
     SelectedConditionFilter?.ToString() ?? "Any",
     SelectedPhoneStateFilter?.ToString() ?? "Any",
     SelectedPhoneStatusFilter?.ToString() ?? "Any",
@@ -309,8 +310,9 @@ namespace PDM.Src.ViewModels
                 query = query.Where(p => p.Model == SelectedModelFilter);
             if (!string.IsNullOrEmpty(SelectedOSFilter))
                 query = query.Where(p => p.OS == SelectedOSFilter);
-            if (SelectedDeviceTypeFilter != null)
-                query = query.Where(p => p.DeviceType == SelectedDeviceTypeFilter);
+            // FIXME: in the db the phones dont actually have the "devicetype" column filled out even though it shows in the program
+            //if (SelectedDeviceTypeFilter != null)
+            //    query = query.Where(p => p.DeviceType == SelectedDeviceTypeFilter);
             if (SelectedConditionFilter != null && SelectedConditionFilter != PhoneCondition.None)
                 query = query.Where(p => p.Condition == SelectedConditionFilter);
             if (SelectedPhoneStateFilter != null && SelectedPhoneStateFilter != PhoneState.None)

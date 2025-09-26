@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:PDM.ui" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneListViewModel}"
+      xmlns:local="clr-namespace:PDM.ui" xmlns:viewmodels="clr-namespace:PDM.Src.ViewModels" xmlns:local1="clr-namespace:PDM.Src.Converters" d:DataContext="{d:DesignInstance Type=viewmodels:PhoneListViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="1000"
       Title="PhoneList" UseLayoutRounding="True">
@@ -12,9 +12,12 @@
         <Style x:Key="DataGridWrappedTextBlockStyle" TargetType="TextBlock">
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="TextAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Padding" Value="4" />
         </Style>
+        
+        <!-- Add the converter -->
+        <local1:ImageDataToImageSourceConverter x:Key="ImageConverter"/>
     </Page.Resources>
 
     <Grid Background="{DynamicResource BackgroundPrimaryAltBrush}">
@@ -71,7 +74,26 @@
             </Grid>
         </Border>
 
-        <DataGrid x:Name="PhoneGrid" Grid.Row="1" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" ItemsSource="{Binding Phones}" HorizontalContentAlignment="Center" IsReadOnly="True" Background="{DynamicResource BackgroundSecondaryBrush}" BorderBrush="{DynamicResource TextNormalBrush}" Foreground="{DynamicResource TextNormalBrush}" Margin="10" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
+        <DataGrid x:Name="PhoneGrid" 
+          Grid.Row="1" 
+          AutoGenerateColumns="False" 
+          CanUserAddRows="False" 
+          ItemsSource="{Binding Phones}" 
+          HorizontalContentAlignment="Center" 
+          IsReadOnly="True" 
+          Background="{DynamicResource BackgroundSecondaryBrush}" 
+          BorderBrush="{DynamicResource TextNormalBrush}" 
+          Foreground="{DynamicResource TextNormalBrush}" 
+          Margin="10" 
+          VirtualizingPanel.IsVirtualizing="True" 
+          VirtualizingPanel.VirtualizationMode="Recycling" 
+          VirtualizingPanel.IsContainerVirtualizable="True"
+          VirtualizingPanel.ScrollUnit="Item"
+          EnableRowVirtualization="True" 
+          EnableColumnVirtualization="False" 
+          ScrollViewer.CanContentScroll="True"
+          ScrollViewer.IsDeferredScrollingEnabled="True"
+          ColumnWidth="*">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <!-- Put the VM on the row.Tag -->
@@ -92,8 +114,37 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Image Source="{Binding ImagePreviewBack}" Stretch="Fill" MaxWidth="250" MaxHeight="100"></Image>
-                                <Image Source="{Binding ImagePreviewFront}" Stretch="Fill" MaxWidth="250" MaxHeight="100"></Image>
+                                <!-- Use converter instead of direct binding -->
+                                <Image Source="{Binding ImageDataB, Converter={StaticResource ImageConverter}}" 
+                                       Stretch="UniformToFill" 
+                                       MaxWidth="250" 
+                                       MaxHeight="100"
+                                       RenderOptions.BitmapScalingMode="LowQuality">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Style.Triggers>
+                                                <Trigger Property="Source" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                                <Image Source="{Binding ImageDataF, Converter={StaticResource ImageConverter}}" 
+                                       Stretch="UniformToFill" 
+                                       MaxWidth="250" 
+                                       MaxHeight="100"
+                                       RenderOptions.BitmapScalingMode="LowQuality">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Style.Triggers>
+                                                <Trigger Property="Source" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
